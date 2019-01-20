@@ -6,6 +6,11 @@ import Data.Foldable (toList)
 import Data.Char (toLower)
 import Data.Maybe (fromMaybe)
 
+-- ============================== FLAGS =====================================
+data Flag = Newline 
+          | KeepNumerals 
+          deriving (Eq)
+
 -- ============================ DATATYPES ===================================
 -- | Data type for expressing results of parsing
 type Fields = S.Seq T.Text
