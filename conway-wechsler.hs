@@ -30,9 +30,12 @@ usage = mapM_ putStrLn $
     ,"    -: read number composed of digits from stdin,"
     ,"       If number is unspecified, this is default"
     ,"  OUTPUT"
+    ,"   --newline,"
     ,"   -n: newline between each -illion"
+    ,"   --keep,"
     ,"   -k: express numbers < 1000 as numerals, not words"
     ,"  MISCELLANEOUS"
+    ,"   --help,"
     ,"   -h: show usage page"
     ]
 
