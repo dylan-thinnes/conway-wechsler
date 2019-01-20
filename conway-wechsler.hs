@@ -38,9 +38,11 @@ data Triple = Triple {
               }
     deriving (Show,Eq)
 
+-- Turn a sequence of ints into a Triple
 intsToTriple :: S.Seq Int -> Triple
 intsToTriple s = Triple (S.index s 0) (S.index s 1) (S.index s 2)
 
+-- Turn a triple back into an integral value
 tripleToInt :: Integral a => Triple -> a
 tripleToInt (Triple h t o) = fromIntegral $ h * 100 + t * 10 + o
 
