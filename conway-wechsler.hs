@@ -24,7 +24,7 @@ main = do
 -- Print usage
 usage :: IO ()
 usage = mapM_ putStrLn $ 
-    ["Usage: conwech [flags]"
+    ["Usage: conway-wechsler [flags]"
     ,"  INPUT"
     ,"  <n>: a number composed of digits"
     ,"    -: read number composed of digits from stdin,"

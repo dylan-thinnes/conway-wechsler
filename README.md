@@ -8,7 +8,7 @@ Command line utility - Convert numbers into a pronounceable form.
 
 ## Usage
 ```
-Usage: conwech [flags]
+Usage: conway-wechsler [flags]
   INPUT
   <n>: a number composed of digits
     -: read number composed of digits from stdin,
