@@ -80,6 +80,16 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Converts number into a fully pronounceable version, using Conway-Wechsler
 -- for zillions and standard English for numbers from 1 - 999999
 
+-- Convert an entire number according to Conway-Wechsler system
+convertConway :: Integer -> Fields
+convertConway n = wordify $ join 
+                  $ S.mapWithIndex f trs
+    where
+    trs = triples n
+    trsLen = length trs
+    indexToPower i = toInteger (trsLen - i - 1)
+    f i tr = convertRegularWithPower tr $ indexToPower i
+
 -- Convert a triple as it expresses a set of three integers times 10^(N * 3)
 convertRegularWithPower :: Triple -> Integer -> Fields
 convertRegularWithPower (Triple 0 0 0) _ = mzero
