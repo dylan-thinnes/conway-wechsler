@@ -78,6 +78,12 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Converts number as in common English, 
 -- e.g. 627 -> "six-hundred and twenty seven"
 
+-- | Get the regular name for each multiplicity of a hundred
+regularHuns :: Int -> Fields
+regularHuns n = runIfNotNull f $ regularOnes n
+    where
+    f x = collapse $ x <> pure "-hundred"
+
 -- | Get the regular name for each multiplicity of one
 regularOnes :: Int -> Fields
 regularOnes 0 = mempty
