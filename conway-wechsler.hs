@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 import qualified Data.Sequence as S
 import qualified Data.Text     as T
-import Control.Monad (mzero, liftM)
+import Control.Monad (mzero, liftM, join)
 import Data.Foldable (toList)
 import Data.Char (toLower)
 import Data.Maybe (fromMaybe)
@@ -80,6 +80,14 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Converts number as if it were the Nth Conway-Wechsler prefix
 -- e.g. 1  -> "million"
 --      32 -> "duotrigintillion"
+
+-- | Convert an Integer as if it were a power of ten, according to the
+-- Conway-Wechsler system
+convertPower :: Integer -> Fields
+convertPower n = (S.|> "on")    -- Append the final "on"
+               $ join           -- Combine all fields
+               $ convertPowerT  -- Convert each triple to a hun/ten/one prefix
+               <$> triples n    -- Extract each triple in the number
 
 -- | Convert Triple as expressing a hundreds, tens, and ones place, according
 -- to the Conway-Wechsler system
