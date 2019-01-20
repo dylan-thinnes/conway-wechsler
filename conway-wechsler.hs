@@ -62,16 +62,29 @@ isInput _         = False
 parseFlags :: [String] -> Either String [Flag]
 parseFlags [] = Right []
 parseFlags (s:ss) = do
-    newFlag <- f s
+    newFlag <- parseFlag s
     nextFlags <- parseFlags ss
-    return $ newFlag : nextFlags
-    where
-    f "-n" = Right Newline
-    f "-k" = Right KeepNumerals
-    f "-h" = Right Help
-    f "-"  = Right Stdin
-    f x    = maybeToEither ("Invalid flag '" ++ x ++ "'") 
-             $ Input <$> tryParseInt x
+    return $ newFlag ++ nextFlags
+
+parseFlag :: String -> Either String [Flag]
+parseFlag "-"         = Right [Stdin]
+parseFlag ('-':'-':l) = (:[]) <$> maybeToFlagError l (getFlagFromLonghand l)
+parseFlag ('-':ss)    = mapM (\s -> maybeToFlagError s $ getFlagFromShorthand s) ss
+parseFlag x           = (:[]) <$> maybeToFlagError x (Input <$> tryParseInt x)
+
+maybeToFlagError :: (Show a) => a -> Maybe Flag -> Either String Flag
+maybeToFlagError s = maybeToEither $ "Invalid flag " ++ show s
+
+getFlagFromShorthand :: Char   -> Maybe Flag
+getFlagFromShorthand 'k' = Just KeepNumerals
+getFlagFromShorthand 'n' = Just Newline
+getFlagFromShorthand 'h' = Just Help
+getFlagFromShorthand _   = Nothing
+getFlagFromLonghand  :: String -> Maybe Flag
+getFlagFromLonghand "keep"    = Just KeepNumerals
+getFlagFromLonghand "newline" = Just Newline
+getFlagFromLonghand "help"    = Just Help
+getFlagFromLonghand _         = Nothing
 
 -- Try and find an input flag, and act on it to produce an input Integer
 extractInput :: [Flag] -> IO (Either String Integer)
