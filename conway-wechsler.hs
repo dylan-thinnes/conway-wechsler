@@ -74,6 +74,12 @@ rawPlaces n = S.fromList $ map f $ show n
     f '8' = 8
     f '9' = 9
 
+-- ============================ POWER NUMBERS ===============================
+-- Converts number as if it were the Nth Conway-Wechsler prefix
+-- e.g. 1  -> "million"
+--      32 -> "duotrigintillion"
+
+
 -- ============================ REGULAR NUMBERS =============================
 -- Converts number as in common English, 
 -- e.g. 627 -> "six-hundred and twenty seven"
