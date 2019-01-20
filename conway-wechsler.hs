@@ -4,7 +4,7 @@ import qualified Data.Text     as T
 import Control.Monad (mzero, liftM, join)
 import Data.Foldable (toList)
 import Data.Char (toLower)
-import Data.Maybe (fromMaybe)
+import Data.Maybe (maybe, fromMaybe)
 
 -- ============================== MAIN ======================================
 
@@ -35,7 +35,11 @@ parseFlags (s:ss) = do
     where
     f "-n" = Right Newline
     f "-k" = Right KeepNumerals
-    f x    = Left ("Invalid flag '" ++ x ++ "'")
+    f x    = maybeToEither ("Invalid flag '" ++ x ++ "'") 
+             $ Input <$> tryParseInt x
+
+maybeToEither :: a -> Maybe b -> Either a b
+maybeToEither = flip maybe Right . Left
 
 tryParseInt :: String -> Maybe Integer
 tryParseInt str = let attempt = reads str in
