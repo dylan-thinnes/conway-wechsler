@@ -419,7 +419,7 @@ regularTeens 14 = pure "fourteen"
 regularTeens 15 = pure "fifteen"
 regularTeens 16 = pure "sixteen"
 regularTeens 17 = pure "seventeen"
-regularTeens 18 = pure "eightteen"
+regularTeens 18 = pure "eighteen"
 regularTeens 19 = pure "nineteen"
 regularTeens _ = error "Tried to supply invalid number to regularTeens."
 
