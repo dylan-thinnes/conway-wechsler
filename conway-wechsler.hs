@@ -5,6 +5,7 @@ import Control.Monad (mzero, liftM, join)
 import Data.Foldable (toList)
 import Data.Char (toLower)
 import Data.Maybe (maybe, fromMaybe)
+import Data.List (intersperse)
 
 -- ============================== MAIN ======================================
 
@@ -62,7 +63,15 @@ extractInput flags
     inputFlags = filter isInput flags
 
 multipleInputFlagsError :: [Flag] -> Either String Integer
-multipleInputFlagsError = undefined
+multipleInputFlagsError fs = Left
+                           $ ("Two or more arguments specify an input, " ++)
+                           $ concat $ intersperse " and "
+                           $ map showInput fs
+    where
+    showInput :: Flag -> String
+    showInput (Input i) = "'" ++ show i ++ "'"
+    showInput Stdin     = "'-' (stdin)"
+    showInput _         = error "Non-input flag supplied to showInput"
 
 -- | Try and turn one of two input flags, Stdin or Input n, into a meaningful
 -- Integer value
