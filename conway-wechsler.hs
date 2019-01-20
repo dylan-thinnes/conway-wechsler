@@ -80,6 +80,42 @@ rawPlaces n = S.fromList $ map f $ show n
 --      32 -> "duotrigintillion"
 
 
+-- | Determine the prefixes for a value in the ones, tens, and hundreds place
+-- according to C-W
+powerOnes, powerTens, powerHuns :: Int -> Fields
+powerOnes 0 = mzero
+powerOnes 1 = pure "un"
+powerOnes 2 = pure "duo"
+powerOnes 3 = pure "tre"
+powerOnes 4 = pure "quattuor"
+powerOnes 5 = pure "quin"
+powerOnes 6 = pure "se"
+powerOnes 7 = pure "septe"
+powerOnes 8 = pure "octo"
+powerOnes 9 = pure "nove"
+
+powerTens 0 = mzero
+powerTens 1 = pure "deci"
+powerTens 2 = pure "viginti"
+powerTens 3 = pure "triginta"
+powerTens 4 = pure "quadraginta"
+powerTens 5 = pure "quinquaginta"
+powerTens 6 = pure "sexafunta"
+powerTens 7 = pure "septuaginta"
+powerTens 8 = pure "octoginta"
+powerTens 9 = pure "nonaginta"
+
+powerHuns 0 = mzero
+powerHuns 1 = pure "centi"
+powerHuns 2 = pure "ducenti"
+powerHuns 3 = pure "trecenti"
+powerHuns 4 = pure "quadringenti"
+powerHuns 5 = pure "quingenti"
+powerHuns 6 = pure "sescenti"
+powerHuns 7 = pure "septingenti"
+powerHuns 8 = pure "octingenti"
+powerHuns 9 = pure "nongenti"
+
 -- ============================ REGULAR NUMBERS =============================
 -- Converts number as in common English, 
 -- e.g. 627 -> "six-hundred and twenty seven"
