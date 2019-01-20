@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 import qualified Data.Sequence as S
 import qualified Data.Text     as T
-import Control.Monad (mzero)
+import Control.Monad (mzero, liftM)
 import Data.Foldable (toList)
 import Data.Char (toLower)
 import Data.Maybe (fromMaybe)
@@ -80,6 +80,26 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Converts number as if it were the Nth Conway-Wechsler prefix
 -- e.g. 1  -> "million"
 --      32 -> "duotrigintillion"
+
+-- | Convert Triple as expressing a hundreds, tens, and ones place, according
+-- to the Conway-Wechsler system
+convertPowerT :: Triple -> Fields
+convertPowerT (Triple 0 0 0) = pure "nilli" -- Expresses zero for XilliYillion
+convertPowerT (Triple 0 0 1) = pure "milli" -- Handle first 9 as Chuquet's names
+convertPowerT (Triple 0 0 2) = pure "billi"
+convertPowerT (Triple 0 0 3) = pure "trilli"
+convertPowerT (Triple 0 0 4) = pure "quadrilli"
+convertPowerT (Triple 0 0 5) = pure "quintilli"
+convertPowerT (Triple 0 0 6) = pure "sextilli"
+convertPowerT (Triple 0 0 7) = pure "septilli"
+convertPowerT (Triple 0 0 8) = pure "octilli"
+convertPowerT (Triple 0 0 9) = pure "nonilli"
+convertPowerT tr@(Triple h t o) = runIfNotNull (liftM appendIlli) $ collapse x
+    where
+    x = powerOnes o           -- Convert ones place
+        <> pluralizeTriple tr -- Append ones place prefix, if any
+        <> powerTens t        -- Convert tens
+        <> powerHuns h        -- Convert hundreds
 
 -- | Append the word "illi" to a text if it is not empty
 appendIlli :: T.Text -> T.Text
