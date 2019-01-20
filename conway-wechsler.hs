@@ -73,3 +73,7 @@ rawPlaces n = S.fromList $ map f $ show n
     f '7' = 7
     f '8' = 8
     f '9' = 9
+
+-- ============================ REGULAR NUMBERS =============================
+-- Converts number as in common English, 
+-- e.g. 627 -> "six-hundred and twenty seven"
