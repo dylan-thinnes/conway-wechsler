@@ -63,7 +63,11 @@ multipleInputFlagsError :: [Flag] -> Either String Integer
 multipleInputFlagsError = undefined
 
 tryGetInput :: Flag -> IO (Either String Integer)
-tryGetInput = undefined
+tryGetInput Stdin     = do
+    inp <- getLine
+    let attempt = tryParseInt inp
+    return $ maybeToEither "Could not parse a number from stdin." attempt
+tryGetInput (Input i) = return $ Right i
 
 maybeToEither :: a -> Maybe b -> Either a b
 maybeToEither = flip maybe Right . Left
