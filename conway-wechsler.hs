@@ -37,6 +37,7 @@ isInput (Input i) = True
 isInput Stdin     = True
 isInput _         = False
 
+-- Try parse flags from input arguments
 parseFlags :: [String] -> Either String [Flag]
 parseFlags [] = Right []
 parseFlags (s:ss) = do
@@ -51,6 +52,7 @@ parseFlags (s:ss) = do
     f x    = maybeToEither ("Invalid flag '" ++ x ++ "'") 
              $ Input <$> tryParseInt x
 
+-- Try and find an input flag, and act on it to produce an input Integer
 extractInput :: [Flag] -> IO (Either String Integer)
 extractInput flags 
   | length inputFlags == 1 = tryGetInput $ head flags
@@ -62,6 +64,10 @@ extractInput flags
 multipleInputFlagsError :: [Flag] -> Either String Integer
 multipleInputFlagsError = undefined
 
+-- | Try and turn one of two input flags, Stdin or Input n, into a meaningful
+-- Integer value
+-- * Stdin means try read from stdin
+-- * Input i means just return i
 tryGetInput :: Flag -> IO (Either String Integer)
 tryGetInput Stdin     = do
     inp <- getLine
@@ -69,9 +75,11 @@ tryGetInput Stdin     = do
     return $ maybeToEither "Could not parse a number from stdin." attempt
 tryGetInput (Input i) = return $ Right i
 
+-- | Map maybe to an Either value, supplying the default Left value
 maybeToEither :: a -> Maybe b -> Either a b
 maybeToEither = flip maybe Right . Left
 
+-- | Try to parse a string into an integer
 tryParseInt :: String -> Maybe Integer
 tryParseInt str = let attempt = reads str in
                   if null attempt
