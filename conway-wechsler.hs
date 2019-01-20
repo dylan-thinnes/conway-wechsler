@@ -43,3 +43,30 @@ intsToTriple s = Triple (S.index s 0) (S.index s 1) (S.index s 2)
 
 tripleToInt :: Integral a => Triple -> a
 tripleToInt (Triple h t o) = fromIntegral $ h * 100 + t * 10 + o
+
+-- Pull all sequential groups of three numbers from an Integer
+-- Start at the rightmost ones place, and go up. Pad the last Triple if
+-- necessary.
+triples :: Integer -> S.Seq Triple
+triples n = intsToTriple <$> S.chunksOf 3 paddedRaw
+    where
+    raw = rawPlaces n
+    lRaw = length raw
+    paddingAmt = (3 - lRaw) `mod` 3
+    paddedRaw = S.replicate paddingAmt 0 <> raw
+    lTriple = ceiling $ fromIntegral lRaw / 3
+
+-- Get all digits from Integer as a sequence of Ints
+rawPlaces :: Integer -> S.Seq Int
+rawPlaces n = S.fromList $ map f $ show n
+    where
+    f '0' = 0
+    f '1' = 1
+    f '2' = 2
+    f '3' = 3
+    f '4' = 4
+    f '5' = 5
+    f '6' = 6
+    f '7' = 7
+    f '8' = 8
+    f '9' = 9
