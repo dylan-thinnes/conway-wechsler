@@ -76,6 +76,10 @@ rawPlaces n = S.fromList $ map f $ show n
     f '8' = 8
     f '9' = 9
 
+-- ============================ FULL NUMBER CONVERSION ======================
+-- Converts number into a fully pronounceable version, using Conway-Wechsler
+-- for zillions and standard English for numbers from 1 - 999999
+
 -- ============================ POWER NUMBERS ===============================
 -- Converts number as if it were the Nth Conway-Wechsler prefix
 -- e.g. 1      -> "million"
