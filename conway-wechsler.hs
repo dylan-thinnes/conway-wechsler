@@ -78,6 +78,7 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Converts number as in common English, 
 -- e.g. 627 -> "six-hundred and twenty seven"
 convertRegular :: Triple -> Fields
+convertRegular (Triple 0 0 0) = mzero
 convertRegular tr             = wordify $ regularBelow1000 
                               $ tripleToInt tr
 
