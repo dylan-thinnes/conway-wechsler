@@ -4,6 +4,7 @@ import qualified Data.Text     as T
 import Control.Monad (mzero)
 import Data.Foldable (toList)
 import Data.Char (toLower)
+import Data.Maybe (fromMaybe)
 
 -- ============================ DATATYPES ===================================
 -- | Data type for expressing results of parsing
@@ -79,6 +80,12 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Converts number as if it were the Nth Conway-Wechsler prefix
 -- e.g. 1  -> "million"
 --      32 -> "duotrigintillion"
+
+-- | Append the word "illi" to a text if it is not empty
+appendIlli :: T.Text -> T.Text
+appendIlli t = fromMaybe T.empty $ do
+    (init, last) <- T.unsnoc t
+    return $ init `T.append` "illi"
 
 -- | Determine the prefixes for a value in the ones, tens, and hundreds place
 -- according to C-W
