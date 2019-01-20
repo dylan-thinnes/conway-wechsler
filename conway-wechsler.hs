@@ -80,6 +80,19 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Converts number into a fully pronounceable version, using Conway-Wechsler
 -- for zillions and standard English for numbers from 1 - 999999
 
+-- Convert a triple as it expresses a set of three integers times 10^(N * 3)
+convertRegularWithPower :: Triple -> Integer -> Fields
+convertRegularWithPower (Triple 0 0 0) _ = mzero
+convertRegularWithPower tr power = collapse $ numeral <> zillion
+    where
+    zillion = if power == 1
+              then pure " thousand"
+              else if power == 0
+                then mzero
+                else pure " " <> convertPower (power - 1)
+    numeral = convertRegular tr
+
+
 -- ============================ POWER NUMBERS ===============================
 -- Converts number as if it were the Nth Conway-Wechsler prefix
 -- e.g. 1      -> "million"
