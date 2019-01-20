@@ -77,6 +77,26 @@ rawPlaces n = S.fromList $ map f $ show n
 -- ============================ REGULAR NUMBERS =============================
 -- Converts number as in common English, 
 -- e.g. 627 -> "six-hundred and twenty seven"
+regularBelow20 :: Int -> Fields
+regularBelow20 n | n < 10    = regularOnes n 
+                 | otherwise = regularTeens n
+
+regularBelow100 :: Int -> Fields
+regularBelow100 n | n < 20    = regularBelow20 n
+                  | otherwise = let (tens, ones) = divMod n 10
+                                in
+                                    regularTens (n `div` 10) <>
+                                    regularOnes (n `mod` 10)
+
+regularBelow1000 :: Int -> Fields
+regularBelow1000 n | n < 100   = regularBelow100 n
+                   | otherwise = let (huns, remainder) = divMod n 100
+                                     hundreds = regularHuns (n `div` 100)
+                                     tensones = regularBelow100 (n `mod` 100)
+                                 in
+                                     if remainder == 0
+                                     then hundreds
+                                     else hundreds <> pure "and" <> tensones
 
 -- | Get the regular name for each multiplicity of a hundred
 regularHuns :: Int -> Fields
