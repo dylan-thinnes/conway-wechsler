@@ -88,8 +88,8 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Convert an entire number according to Conway-Wechsler system
 convertConway :: [Flag] -> Integer -> Fields
 convertConway flags n = (if Newline `elem` flags then lineify else wordify)
-                      $ join                 -- Combine fields as words or lines
-                      $ S.mapWithIndex f trs -- Obtain words for each triple in n
+                      $ join                 -- Combine fields as words/lines
+                      $ S.mapWithIndex f trs -- Convert each triple in n
     where
     trs = triples n
     trsLen = length trs
