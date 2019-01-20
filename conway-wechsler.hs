@@ -79,7 +79,6 @@ rawPlaces n = S.fromList $ map f $ show n
 -- e.g. 1  -> "million"
 --      32 -> "duotrigintillion"
 
-
 -- | Determine the prefixes for a value in the ones, tens, and hundreds place
 -- according to C-W
 powerOnes, powerTens, powerHuns :: Int -> Fields
@@ -115,6 +114,13 @@ powerHuns 6 = pure "sescenti"
 powerHuns 7 = pure "septingenti"
 powerHuns 8 = pure "octingenti"
 powerHuns 9 = pure "nongenti"
+
+-- Inflections
+-- | Data type for tracking the inflections a tens/hundreds place can incur on
+-- the ones place
+data Inf1 = M | N deriving (Show, Eq, Bounded, Enum)
+data Inf2 = S | X deriving (Show, Eq, Bounded, Enum)
+type Infs = (Maybe Inf1, Maybe Inf2)
 
 -- ============================ REGULAR NUMBERS =============================
 -- Converts number as in common English, 
