@@ -25,6 +25,17 @@ data Flag = Newline
           | KeepNumerals 
           deriving (Eq)
 
+parseFlags :: [String] -> Either String [Flag]
+parseFlags [] = Right []
+parseFlags (s:ss) = do
+    newFlag <- f s
+    nextFlags <- parseFlags ss
+    return $ newFlag : nextFlags
+    where
+    f "-n" = Right Newline
+    f "-k" = Right KeepNumerals
+    f x    = Left ("Invalid flag '" ++ x ++ "'")
+
 -- ============================ DATATYPES ===================================
 -- | Data type for expressing results of parsing
 type Fields = S.Seq T.Text
