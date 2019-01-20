@@ -77,6 +77,10 @@ rawPlaces n = S.fromList $ map f $ show n
 -- ============================ REGULAR NUMBERS =============================
 -- Converts number as in common English, 
 -- e.g. 627 -> "six-hundred and twenty seven"
+convertRegular :: Triple -> Fields
+convertRegular tr             = wordify $ regularBelow1000 
+                              $ tripleToInt tr
+
 regularBelow20 :: Int -> Fields
 regularBelow20 n | n < 10    = regularOnes n 
                  | otherwise = regularTeens n
