@@ -8,6 +8,7 @@ import Data.Char (toLower)
 import Data.Maybe (maybe, fromMaybe)
 import Data.List (intersperse)
 import System.Environment (getArgs)
+import Debug.Trace
 
 -- ============================== MAIN ======================================
 main :: IO ()
@@ -54,7 +55,7 @@ data Flag = Newline
           | Help
           | Stdin
           | Input Integer
-          deriving (Eq)
+          deriving (Eq, Show)
 
 isInput :: Flag -> Bool
 isInput (Input i) = True
@@ -92,7 +93,7 @@ getFlagFromLonghand _         = Nothing
 -- Try and find an input flag, and act on it to produce an input Integer
 extractInput :: [Flag] -> IO (Either String Integer)
 extractInput flags 
-  | length inputFlags == 1 = tryGetInput $ head flags
+  | length inputFlags == 1 = tryGetInput $ head inputFlags
   | length inputFlags == 0 = tryGetInput Stdin
   | otherwise              = return $ multipleInputFlagsError inputFlags
     where
