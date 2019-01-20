@@ -3,6 +3,7 @@ import qualified Data.Sequence as S
 import qualified Data.Text     as T
 import Control.Monad (mzero)
 import Data.Foldable (toList)
+import Data.Char (toLower)
 
 -- ============================ DATATYPES ===================================
 -- | Data type for expressing results of parsing
@@ -121,6 +122,15 @@ powerHuns 9 = pure "nongenti"
 data Inf1 = M | N deriving (Show, Eq, Bounded, Enum)
 data Inf2 = S | X deriving (Show, Eq, Bounded, Enum)
 type Infs = (Maybe Inf1, Maybe Inf2)
+
+-- | Given inflection markers and a ones place to apply them to, returns the
+-- correct suffix or none at all
+inflectOnes :: Int -> Infs -> Fields
+inflectOnes 3 (_,       Just p)  = pure "s"
+inflectOnes 6 (_,       Just p)  = pure $ T.map toLower $ T.pack $ show p
+inflectOnes 7 (Just p,  _)       = pure $ T.map toLower $ T.pack $ show p
+inflectOnes 9 (Just p,  _)       = pure $ T.map toLower $ T.pack $ show p
+inflectOnes _ _                  = mzero
 
 -- | Extract the inflection markers of a Triple, depending on whether a tens or
 -- hundred place is immediately adjacent to the ones place
