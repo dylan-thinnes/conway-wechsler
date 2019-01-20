@@ -122,6 +122,30 @@ data Inf1 = M | N deriving (Show, Eq, Bounded, Enum)
 data Inf2 = S | X deriving (Show, Eq, Bounded, Enum)
 type Infs = (Maybe Inf1, Maybe Inf2)
 
+-- | Extract the inflection markers of each hundreds place
+hunsInflection :: Int -> Infs
+hunsInflection 1 = (Just N  , Just X)
+hunsInflection 2 = (Just N  , Nothing)
+hunsInflection 3 = (Just N  , Just S)
+hunsInflection 4 = (Just N  , Just S)
+hunsInflection 5 = (Just N  , Just S)
+hunsInflection 6 = (Just N  , Nothing)
+hunsInflection 7 = (Just N  , Nothing)
+hunsInflection 8 = (Just M  , Just X)
+hunsInflection 9 = (Nothing , Nothing)
+
+-- | Extract the inflection markers of each tens place
+tensInflection :: Int -> Infs
+tensInflection 1 = (Just N  , Nothing)
+tensInflection 2 = (Just M  , Just S)
+tensInflection 3 = (Just N  , Just S)
+tensInflection 4 = (Just N  , Just S)
+tensInflection 5 = (Just N  , Just S)
+tensInflection 6 = (Just N  , Nothing)
+tensInflection 7 = (Just N  , Nothing)
+tensInflection 8 = (Just M  , Just X)
+tensInflection 9 = (Nothing , Nothing)
+
 -- ============================ REGULAR NUMBERS =============================
 -- Converts number as in common English, 
 -- e.g. 627 -> "six-hundred and twenty seven"
