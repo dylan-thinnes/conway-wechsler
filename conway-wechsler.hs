@@ -82,8 +82,8 @@ rawPlaces n = S.fromList $ map f $ show n
 
 -- Convert an entire number according to Conway-Wechsler system
 convertConway :: Integer -> Fields
-convertConway n = wordify $ join 
-                  $ S.mapWithIndex f trs
+convertConway n = wordify $ join         -- Combine fields as words
+                  $ S.mapWithIndex f trs -- Obtain words for each triple in n
     where
     trs = triples n
     trsLen = length trs
@@ -92,14 +92,15 @@ convertConway n = wordify $ join
 
 -- Convert a triple as it expresses a set of three integers times 10^(N * 3)
 convertRegularWithPower :: Triple -> Integer -> Fields
-convertRegularWithPower (Triple 0 0 0) _ = mzero
+convertRegularWithPower (Triple 0 0 0) _ = mzero -- Given 0, return empty
 convertRegularWithPower tr power = collapse $ numeral <> zillion
     where
-    zillion = if power == 1
+    zillion = if power == 1         -- 10^(3*1) is a thousand
               then pure " thousand"
-              else if power == 0
+              else if power == 0    -- 10^(3*0) means no zillion prefix
                 then mzero
-                else pure " " <> convertPower (power - 1)
+                else pure " " <> convertPower (power - 1) 
+                     -- Decrement N by 1 for zillions (N=2 -> million)
     numeral = convertRegular tr
 
 
