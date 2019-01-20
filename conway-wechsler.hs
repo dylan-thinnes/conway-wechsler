@@ -375,9 +375,11 @@ regularBelow100 :: Int -> Fields
 regularBelow100 n | n < 20    = regularBelow20 n
                   | otherwise = let (tens, ones) = divMod n 10
                                 in
-                                    collapse
-                                    $ regularTens (n `div` 10) <> pure "-" <>
-                                      regularOnes (n `mod` 10)
+                                     if ones == 0
+                                     then regularTens tens
+                                     else collapse
+                                        $ regularTens (n `div` 10) <> pure "-"
+                                        <> regularOnes (n `mod` 10)
 
 regularBelow1000 :: Int -> Fields
 regularBelow1000 n | n < 100   = regularBelow100 n
