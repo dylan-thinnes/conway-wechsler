@@ -9,6 +9,17 @@ import Data.Maybe (fromMaybe)
 -- ============================== MAIN ======================================
 
 
+-- Print usage
+usage :: IO ()
+usage = mapM_ putStrLn $ 
+    ["Usage: conwech [flags]"
+    ,"  INPUT"
+    ,"  <n>: a number composed of digits"
+    ,"  OUTPUT"
+    ,"   -n: newline between each -illion"
+    ,"   -k: express numbers < 1000 as numerals, not words"
+    ]
+
 -- ============================== FLAGS =====================================
 data Flag = Newline 
           | KeepNumerals 
