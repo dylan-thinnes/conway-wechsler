@@ -77,3 +77,45 @@ rawPlaces n = S.fromList $ map f $ show n
 -- ============================ REGULAR NUMBERS =============================
 -- Converts number as in common English, 
 -- e.g. 627 -> "six-hundred and twenty seven"
+
+-- | Get the regular name for each multiplicity of one
+regularOnes :: Int -> Fields
+regularOnes 0 = mempty
+regularOnes 1 = pure "one"
+regularOnes 2 = pure "two"
+regularOnes 3 = pure "three"
+regularOnes 4 = pure "four"
+regularOnes 5 = pure "five"
+regularOnes 6 = pure "six"
+regularOnes 7 = pure "seven"
+regularOnes 8 = pure "eight"
+regularOnes 9 = pure "nine"
+regularOnes _ = error "Tried to supply invalid number to regularOnes."
+
+-- | Get the regular name for each number between 10-19 inclusive
+regularTeens :: Int -> Fields
+regularTeens 10 = pure "ten"
+regularTeens 11 = pure "eleven"
+regularTeens 12 = pure "twelve"
+regularTeens 13 = pure "thirteen"
+regularTeens 14 = pure "fourteen"
+regularTeens 15 = pure "fifteen"
+regularTeens 16 = pure "sixteen"
+regularTeens 17 = pure "seventeen"
+regularTeens 18 = pure "eightteen"
+regularTeens 19 = pure "nineteen"
+regularTeens _ = error "Tried to supply invalid number to regularTeens."
+
+-- | Get the regular name for each multiplicity of ten
+regularTens :: Int -> Fields
+regularTens 0 = mempty
+regularTens 1 = pure "ten"
+regularTens 2 = pure "twenty"
+regularTens 3 = pure "thirty"
+regularTens 4 = pure "forty"
+regularTens 5 = pure "fifty"
+regularTens 6 = pure "sixty"
+regularTens 7 = pure "seventy"
+regularTens 8 = pure "eighty"
+regularTens 9 = pure "ninety"
+regularTens _ = error "Tried to supply invalid number to regularTens."
