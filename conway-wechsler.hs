@@ -32,6 +32,11 @@ data Flag = Newline
           | Input Integer
           deriving (Eq)
 
+isInput :: Flag -> Bool
+isInput (Input i) = True
+isInput Stdin     = True
+isInput _         = False
+
 parseFlags :: [String] -> Either String [Flag]
 parseFlags [] = Right []
 parseFlags (s:ss) = do
@@ -45,6 +50,20 @@ parseFlags (s:ss) = do
     f "-"  = Right Stdin
     f x    = maybeToEither ("Invalid flag '" ++ x ++ "'") 
              $ Input <$> tryParseInt x
+
+extractInput :: [Flag] -> IO (Either String Integer)
+extractInput flags 
+  | length inputFlags == 1 = tryGetInput $ head flags
+  | length inputFlags == 0 = tryGetInput Stdin
+  | otherwise              = return $ multipleInputFlagsError inputFlags
+    where
+    inputFlags = filter isInput flags
+
+multipleInputFlagsError :: [Flag] -> Either String Integer
+multipleInputFlagsError = undefined
+
+tryGetInput :: Flag -> IO (Either String Integer)
+tryGetInput = undefined
 
 maybeToEither :: a -> Maybe b -> Either a b
 maybeToEither = flip maybe Right . Left
