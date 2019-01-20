@@ -221,16 +221,14 @@ convertRegularWithPower :: [Flag] -> Triple -> Integer -> Fields
 convertRegularWithPower flags (Triple 0 0 0) _ = mzero -- Given 0, return empty
 convertRegularWithPower flags tr power = collapse $ numeral <> zillion
     where
-    zillion = if power == 1         -- 10^(3*1) is a thousand
-              then pure " thousand"
-              else if power == 0    -- 10^(3*0) means no zillion prefix
-                then mzero
-                else pure " " <> convertPower (power - 1) 
-                     -- Decrement N by 1 for zillions (N=2 -> million)
-    numeral = if KeepNumerals `elem` flags 
-              then pure $ T.pack $ show $ tripleToInt tr
-                   -- If KeepNumerals set, just print the number
-              else convertRegular tr
+    zillion | power == 0 = mzero            -- 10^(3*0) means no zillion prefix
+            | power == 1 = pure " thousand" -- 10^(3*1) is a thousand
+            | otherwise  = pure " " <> convertPower (power - 1) 
+                 -- Decrement N by 1 for zillions (N=2 -> million)
+    numeral | KeepNumerals `elem` flags = pure $ T.pack 
+                                        $ show $ tripleToInt tr
+              -- If KeepNumerals set, just print the number
+            | otherwise                 = convertRegular tr
 
 -- ============================ POWER NUMBERS ===============================
 -- Converts number as if it were the Nth Conway-Wechsler prefix
