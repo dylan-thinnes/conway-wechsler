@@ -13,12 +13,12 @@ import System.Environment (getArgs)
 main :: IO ()
 main = do
     args <- getArgs
-    handleE (parseFlags args) $ \flags -> do
-        if Help `elem` flags
+    handleE (parseFlags args) $ \flags -> do -- Try to get the flags
+        if Help `elem` flags -- If Help flag is set, just print usage
         then usage
         else do
             inp <- extractInput flags
-            handleE inp $ \n -> do
+            handleE inp $ \n -> do  -- Try to extract a meaningful input
                 TIO.putStrLn $ extract $ convertConway flags n
 
 -- Print usage
@@ -36,10 +36,12 @@ usage = mapM_ putStrLn $
     ,"   -h: show usage page"
     ]
 
--- Handle Either String 
+-- Handle Either String by
+-- * If it's an error, print error messaage and then usage
+-- * Otherwise, pass the result to the handler
 handleE :: Either String a -> (a -> IO ()) -> IO ()
-handleE (Left s)  _ = putStrLn s >> usage 
-handleE (Right s) f = f s
+handleE (Left s)  _       = putStrLn s >> usage 
+handleE (Right s) handler = handler s
 
 
 -- ============================== FLAGS =====================================
