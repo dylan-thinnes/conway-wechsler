@@ -9,7 +9,6 @@ import Data.List (intersperse)
 
 -- ============================== MAIN ======================================
 
-
 -- Print usage
 usage :: IO ()
 usage = mapM_ putStrLn $ 
@@ -24,6 +23,12 @@ usage = mapM_ putStrLn $
     ,"  MISCELLANEOUS"
     ,"   -h: show usage page"
     ]
+
+-- Handle Either String 
+handleE :: Either String a -> (a -> IO ()) -> IO ()
+handleE (Left s)  _ = putStrLn s >> usage 
+handleE (Right s) f = f s
+
 
 -- ============================== FLAGS =====================================
 data Flag = Newline 
