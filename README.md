@@ -1,6 +1,11 @@
 # conway-wechsler
 Command line utility - Convert numbers into a pronounceable form.
 
+[Usage](#usage)
+[Installation](#installation)
+[What does it do?](#what-does-it-do)
+[What is Conway-Wechsler form?](#what-is-conway-wechsler-form)
+
 ## Usage
 ```
 Usage: conwech [flags]
