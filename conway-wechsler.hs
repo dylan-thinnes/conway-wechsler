@@ -78,10 +78,11 @@ rawPlaces n = S.fromList $ map f $ show n
 
 -- ============================ POWER NUMBERS ===============================
 -- Converts number as if it were the Nth Conway-Wechsler prefix
--- e.g. 1  -> "million"
---      32 -> "duotrigintillion"
+-- e.g. 1      -> "million"
+--      32     -> "duotrigintillion"
+--      100003 -> "millinillitrillion"
 
--- | Convert an Integer as if it were a power of ten, according to the
+-- | Convert an Integer as if it were the Nth zillion, according to the
 -- Conway-Wechsler system
 convertPower :: Integer -> Fields
 convertPower n = (S.|> "on")    -- Append the final "on"
