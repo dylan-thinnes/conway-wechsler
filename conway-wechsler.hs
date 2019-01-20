@@ -1,13 +1,25 @@
 {-# LANGUAGE OverloadedStrings #-}
 import qualified Data.Sequence as S
 import qualified Data.Text     as T
+import qualified Data.Text.IO  as TIO
 import Control.Monad (mzero, liftM, join)
 import Data.Foldable (toList)
 import Data.Char (toLower)
 import Data.Maybe (maybe, fromMaybe)
 import Data.List (intersperse)
+import System.Environment (getArgs)
 
 -- ============================== MAIN ======================================
+main :: IO ()
+main = do
+    args <- getArgs
+    handleE (parseFlags args) $ \flags -> do
+        if Help `elem` flags
+        then usage
+        else do
+            inp <- extractInput flags
+            handleE inp $ \n -> do
+                TIO.putStrLn $ extract $ convertConway flags n
 
 -- Print usage
 usage :: IO ()
