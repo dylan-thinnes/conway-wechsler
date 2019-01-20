@@ -4,7 +4,8 @@ import qualified Data.Text     as T
 import Control.Monad (mzero)
 import Data.Foldable (toList)
 
--- Data type for expressing results of parsing
+-- ============================ DATATYPES ===================================
+-- | Data type for expressing results of parsing
 type Fields = S.Seq T.Text
 
 -- | Extract the concatenation of a group of fields
@@ -38,15 +39,15 @@ data Triple = Triple {
               }
     deriving (Show,Eq)
 
--- Turn a sequence of ints into a Triple
+-- | Turn a sequence of ints into a Triple
 intsToTriple :: S.Seq Int -> Triple
 intsToTriple s = Triple (S.index s 0) (S.index s 1) (S.index s 2)
 
--- Turn a triple back into an integral value
+-- | Turn a triple back into an integral value
 tripleToInt :: Integral a => Triple -> a
 tripleToInt (Triple h t o) = fromIntegral $ h * 100 + t * 10 + o
 
--- Pull all sequential groups of three numbers from an Integer
+-- | Pull all sequential groups of three numbers from an Integer
 -- Start at the rightmost ones place, and go up. Pad the last Triple if
 -- necessary.
 triples :: Integer -> S.Seq Triple
@@ -58,7 +59,7 @@ triples n = intsToTriple <$> S.chunksOf 3 paddedRaw
     paddedRaw = S.replicate paddingAmt 0 <> raw
     lTriple = ceiling $ fromIntegral lRaw / 3
 
--- Get all digits from Integer as a sequence of Ints
+-- | Get all digits from Integer as a sequence of Ints
 rawPlaces :: Integer -> S.Seq Int
 rawPlaces n = S.fromList $ map f $ show n
     where
