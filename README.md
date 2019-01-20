@@ -1,7 +1,34 @@
 # conway-wechsler
 Command line utility - Convert numbers into a pronounceable form.
 
-## What does it solve?
+## Usage
+```
+Usage: conwech [flags]
+  INPUT
+  <n>: a number composed of digits
+    -: read number composed of digits from stdin,
+       If number is unspecified, this is default
+  OUTPUT
+   --newline,
+   -n: newline between each -illion
+   --keep,
+   -k: express numbers < 1000 as numerals, not words
+  MISCELLANEOUS
+   --help,
+   -h: show usage page
+```
+
+## Installation
+1. Compile to an executable using GHC.
+   The base installation ought to be sufficient for this program.
+   [(Getting started with Haskell)](https://haskell-lang.org/get-started)
+2. Rename the executable to whatever you'd like to be called.
+3. Put it in your PATH.  
+   [(What is my PATH?)](http://www.linfo.org/path_env_var.html)
+
+Done!
+
+## What does it do?
 In English, numbers are pronounced by splitting their digits into sets of three. These sets of three are then read as regular numerals with a suffix denoting the power of ten by which the set is multiplied.
 
 For example, `12,150,000,023` is split into `012` and `153` and `000` and `023` respectively
@@ -80,6 +107,7 @@ The rules for using the Conway-Wechsler system is as follows:
 The Conway-Wechsler system extends to arbitrarily high values. After setting out the rules above, the authors continue:
 > With Allan Wechsler we propose to extend this system indefinitely by combining these according to the convention that "XilliYilliZillion" (say) denotes the (1000000X + 1000Y + Z)th zillion, using "nillion" for the zeroth "zillion" when this is needed as a placeholder. So for example the million-and-third zillion is a "millinillitrillion." 
 
+## Citations
 
 [1] The Book of Numbers, Springer-Verlag, New York, 1996. ISBN 038797993X.
 
