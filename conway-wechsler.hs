@@ -122,6 +122,13 @@ data Inf1 = M | N deriving (Show, Eq, Bounded, Enum)
 data Inf2 = S | X deriving (Show, Eq, Bounded, Enum)
 type Infs = (Maybe Inf1, Maybe Inf2)
 
+-- | Extract the inflection markers of a Triple, depending on whether a tens or
+-- hundred place is immediately adjacent to the ones place
+tripleInflection :: Triple -> Infs
+tripleInflection (Triple 0 0 _) = (Nothing, Nothing)
+tripleInflection (Triple n 0 _) = hunsInflection n
+tripleInflection (Triple _ n _) = tensInflection n
+
 -- | Extract the inflection markers of each hundreds place
 hunsInflection :: Int -> Infs
 hunsInflection 1 = (Just N  , Just X)
