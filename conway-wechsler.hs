@@ -15,14 +15,20 @@ usage = mapM_ putStrLn $
     ["Usage: conwech [flags]"
     ,"  INPUT"
     ,"  <n>: a number composed of digits"
+    ,"    -: read number composed of digits from stdin,"
+    ,"       If number is unspecified, this is default"
     ,"  OUTPUT"
     ,"   -n: newline between each -illion"
     ,"   -k: express numbers < 1000 as numerals, not words"
+    ,"  MISCELLANEOUS"
+    ,"   -h: show usage page"
     ]
 
 -- ============================== FLAGS =====================================
 data Flag = Newline 
           | KeepNumerals 
+          | Help
+          | Stdin
           | Input Integer
           deriving (Eq)
 
@@ -35,6 +41,8 @@ parseFlags (s:ss) = do
     where
     f "-n" = Right Newline
     f "-k" = Right KeepNumerals
+    f "-h" = Right Help
+    f "-"  = Right Stdin
     f x    = maybeToEither ("Invalid flag '" ++ x ++ "'") 
              $ Input <$> tryParseInt x
 
