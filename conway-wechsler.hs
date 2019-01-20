@@ -123,6 +123,11 @@ data Inf1 = M | N deriving (Show, Eq, Bounded, Enum)
 data Inf2 = S | X deriving (Show, Eq, Bounded, Enum)
 type Infs = (Maybe Inf1, Maybe Inf2)
 
+-- | Extract inflection of tens or hundreds place and applies it to ones place
+-- to obtain correct suffix for ones place
+pluralizeTriple :: Triple -> Fields
+pluralizeTriple t = inflectOnes (one t) $ tripleInflection t
+
 -- | Given inflection markers and a ones place to apply them to, returns the
 -- correct suffix or none at all
 inflectOnes :: Int -> Infs -> Fields
