@@ -6,6 +6,9 @@ import Data.Foldable (toList)
 import Data.Char (toLower)
 import Data.Maybe (fromMaybe)
 
+-- ============================== MAIN ======================================
+
+
 -- ============================== FLAGS =====================================
 data Flag = Newline 
           | KeepNumerals 
