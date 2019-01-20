@@ -107,8 +107,9 @@ convertRegularWithPower flags tr power = collapse $ numeral <> zillion
                 then mzero
                 else pure " " <> convertPower (power - 1) 
                      -- Decrement N by 1 for zillions (N=2 -> million)
-    numeral = convertRegular tr
-
+    numeral = if KeepNumerals `elem` flags
+              then pure $ T.pack $ show $ tripleToInt tr
+              else convertRegular tr
 
 -- ============================ POWER NUMBERS ===============================
 -- Converts number as if it were the Nth Conway-Wechsler prefix
