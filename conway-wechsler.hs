@@ -207,13 +207,14 @@ rawPlaces n = S.fromList $ map f $ show n
 
 -- Convert an entire number according to Conway-Wechsler system
 convertConway :: [Flag] -> Integer -> Fields
-convertConway flags n = (if Newline `elem` flags then lineify else wordify)
+convertConway flags n = splitter
                       $ join                 -- Combine fields as words/lines
                       $ S.mapWithIndex f trs -- Convert each triple in n
     where
     trs = triples n
     trsLen = length trs
     indexToPower i = toInteger (trsLen - i - 1)
+    splitter = if Newline `elem` flags then lineify else S.intersperse ", "
     f i tr = convertRegularWithPower flags tr $ indexToPower i
 
 -- Convert a triple as it expresses a set of three integers times 10^(N * 3)
@@ -374,8 +375,9 @@ regularBelow100 :: Int -> Fields
 regularBelow100 n | n < 20    = regularBelow20 n
                   | otherwise = let (tens, ones) = divMod n 10
                                 in
-                                    regularTens (n `div` 10) <>
-                                    regularOnes (n `mod` 10)
+                                    collapse
+                                    $ regularTens (n `div` 10) <> pure "-" <>
+                                      regularOnes (n `mod` 10)
 
 regularBelow1000 :: Int -> Fields
 regularBelow1000 n | n < 100   = regularBelow100 n
@@ -391,7 +393,7 @@ regularBelow1000 n | n < 100   = regularBelow100 n
 regularHuns :: Int -> Fields
 regularHuns n = runIfNotNull f $ regularOnes n
     where
-    f x = collapse $ x <> pure "-hundred"
+    f x = collapse $ x <> pure " hundred"
 
 -- | Get the regular name for each multiplicity of one
 regularOnes :: Int -> Fields
