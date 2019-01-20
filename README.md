@@ -1,12 +1,9 @@
 # conway-wechsler
 Command line utility - Convert numbers into a pronounceable form.
 
-[Usage](#usage)
-
-[Installation](#installation)
-
-[What does it do?](#what-does-it-do)
-
+[Usage](#usage)  
+[Installation](#installation)  
+[What does it do?](#what-does-it-do)  
 [What is Conway-Wechsler form?](#what-is-conway-wechsler-form)
 
 ## Usage
@@ -27,14 +24,13 @@ Usage: conwech [flags]
 ```
 
 ## Installation
-1. Compile to an executable using GHC.
-   The base installation ought to be sufficient for this program.
+1. Compile to an executable using GHC.   
    [(Getting started with Haskell)](https://haskell-lang.org/get-started)
 2. Rename the executable to whatever you'd like to be called.
 3. Put it in your PATH.  
    [(What is my PATH?)](http://www.linfo.org/path_env_var.html)
-
-Done!
+   
+Please feel free to open an issue for help.
 
 ## What does it do?
 In English, numbers are pronounced by splitting their digits into sets of three. These sets of three are then read as regular numerals with a suffix denoting the power of ten by which the set is multiplied.
