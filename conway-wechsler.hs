@@ -23,6 +23,7 @@ usage = mapM_ putStrLn $
 -- ============================== FLAGS =====================================
 data Flag = Newline 
           | KeepNumerals 
+          | Input Integer
           deriving (Eq)
 
 parseFlags :: [String] -> Either String [Flag]
@@ -35,6 +36,12 @@ parseFlags (s:ss) = do
     f "-n" = Right Newline
     f "-k" = Right KeepNumerals
     f x    = Left ("Invalid flag '" ++ x ++ "'")
+
+tryParseInt :: String -> Maybe Integer
+tryParseInt str = let attempt = reads str in
+                  if null attempt
+                  then Nothing
+                  else Just $ fst $ attempt !! 0
 
 -- ============================ DATATYPES ===================================
 -- | Data type for expressing results of parsing
