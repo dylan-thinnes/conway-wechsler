@@ -20,3 +20,11 @@ runIfNotNull func fields = if fields == mzero
 -- | Collapse a group of fields into a single field
 collapse :: Fields -> Fields
 collapse = runIfNotNull (pure . T.concat . toList)
+
+-- | Put spaces between each parsed result
+wordify :: Fields -> Fields
+wordify = S.intersperse " "
+
+-- | Put newlines between each parsed result
+lineify :: Fields -> Fields
+lineify = S.intersperse "\n"
