@@ -18,6 +18,7 @@ Usage: conway-wechsler [flags]
    -n: newline between each -illion
    --keep,
    -k: express numbers < 1000 as numerals, not words
+       also, write 'negative' as '-'
   MISCELLANEOUS
    --help,
    -h: show usage page
