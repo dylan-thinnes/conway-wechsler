@@ -210,17 +210,17 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Handles edge cases around a given number before handing it off to
 -- convertConway, and then concatenates everything
 convert :: [Flag] -> Integer -> T.Text
-convert flags n | n == 0 = "zero"
-                | n < 0  = T.concat [ negativePrefix
-                                    , extract $ S.intersperse sep 
-                                    $ convertConway flags (abs n)
-                                    ]
-                | n > 0  = extract $ S.intersperse sep 
-                                   $ convertConway flags n
+convert flags n | n == 0    = "zero"
+                | otherwise = extract $ getNegative flags n <>
+                              S.intersperse sep (convertConway flags $ abs n)
     where
     sep = if Newline `elem` flags then "\n" else ", "
+
+getNegative :: [Flag] -> Integer -> Fields
+getNegative flags n | n >= 0    = mzero
+                    | otherwise = pure "negative" <> pure sepNeg
+    where
     sepNeg = if Newline `elem` flags then "\n" else " "
-    negativePrefix = T.concat ["negative", sepNeg]
 
 -- Convert a positive number according to Conway-Wechsler system
 convertConway :: [Flag] -> Integer -> Fields
