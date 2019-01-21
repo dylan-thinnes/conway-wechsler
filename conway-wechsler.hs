@@ -218,9 +218,10 @@ convert flags n | n == 0    = "zero"
 
 getNegative :: [Flag] -> Integer -> Fields
 getNegative flags n | n >= 0    = mzero
-                    | otherwise = pure "negative" <> pure sepNeg
+                    | otherwise = pure neg <> pure sepNeg
     where
     sepNeg = if Newline `elem` flags then "\n" else " "
+    neg    = if KeepNumerals `elem` flags then "-" else "negative"
 
 -- Convert a positive number according to Conway-Wechsler system
 convertConway :: [Flag] -> Integer -> Fields
