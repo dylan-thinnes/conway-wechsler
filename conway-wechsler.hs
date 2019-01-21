@@ -72,7 +72,9 @@ parseFlags (s:ss) = do
 parseFlag :: String -> Either String [Flag]
 parseFlag "-"         = Right [Stdin]
 parseFlag ('-':'-':l) = (:[]) <$> maybeToFlagError l (getFlagFromLonghand l)
-parseFlag ('-':ss)    = mapM (\s -> maybeToFlagError s $ getFlagFromShorthand s) ss
+parseFlag ('-':ss)    = case tryParseInt ss of
+                          Nothing -> mapM (\s -> maybeToFlagError s $ getFlagFromShorthand s) ss
+                          Just n  -> Right [Input (-n)]
 parseFlag x           = (:[]) <$> maybeToFlagError x (Input <$> tryParseInt x)
 
 maybeToFlagError :: (Show a) => a -> Maybe Flag -> Either String Flag
@@ -127,7 +129,7 @@ maybeToEither = flip maybe Right . Left
 -- | Try to parse a string into an integer
 tryParseInt :: String -> Maybe Integer
 tryParseInt str = let attempt = reads str in
-                  if null attempt
+                  if null attempt || (not $ null $ snd $ head attempt)
                   then Nothing
                   else Just $ fst $ attempt !! 0
 
