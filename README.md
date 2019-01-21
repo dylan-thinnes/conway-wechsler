@@ -78,18 +78,18 @@ The Conway-Wechsler system is a system set forth by John Horton Conway and Allan
 There is an excellent explanation by Robert Munafo [2] (CC BY-NC 4.0). I have reproduced it here in Markdown for your convenience.
 
 ```
-| n |    ones    |       tens        |     hundreds      |
-|---| ---------- | ----------------- | ----------------- |
-| 0 |            |                   |                   |
-| 1 | un         | (n) deci          | (nx) centi        |
-| 2 | duo        | (ms) viginti      | (n) ducenti       |
-| 3 | tre (*)    | (ns) triginta     | (ns) trecenti     |
-| 4 | quattuor   | (ns) quadraginta  | (ns) quadringenti |
-| 5 | quin       | (ns) quinquaginta | (ns) quingenti    |
-| 6 | se (sx)    | (n) sexaginta     | (n) sescenti      |
-| 7 | septe (mn) | (n) septuaginta   | (n) septingenti   |
-| 8 | octo       | (mx) octoginta    | (mx) octingenti   |
-| 9 | nove (mn)  | nonaginta         | nongenti          |
+| n |    ones      |       tens        |     hundreds      |
+|---|--------------|-------------------|-------------------|
+| 0 |              |                   |                   |
+| 1 | un           | (n)  deci         | (nx) centi        |
+| 2 | duo          | (ms) viginti      | (n)  ducenti      |
+| 3 | tre      (*) | (ns) triginta     | (ns) trecenti     |
+| 4 | quattuor     | (ns) quadraginta  | (ns) quadringenti |
+| 5 | quin         | (ns) quinquaginta | (ns) quingenti    |
+| 6 | se      (sx) | (n)  sexaginta    | (n)  sescenti     |
+| 7 | septe   (mn) | (n)  septuaginta  | (n)  septingenti  |
+| 8 | octo         | (mx) octoginta    | (mx) octingenti   |
+| 9 | nove    (mn) |      nonaginta    |      nongenti     |
 ```
 
 The rules for using the Conway-Wechsler system is as follows:
