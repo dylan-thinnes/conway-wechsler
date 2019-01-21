@@ -19,7 +19,7 @@ main = do
         else do
             inp <- extractInput flags
             handleE inp $ \n -> do  -- Try to extract a meaningful input
-                TIO.putStrLn $ extract $ convertConway flags n
+                TIO.putStrLn $ convert flags n
 
 -- Print usage
 usage :: IO ()
@@ -205,16 +205,28 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Converts number into a fully pronounceable version, using Conway-Wechsler
 -- for zillions and standard English for numbers from 1 - 999999
 
--- Convert an entire number according to Conway-Wechsler system
+-- Handles edge cases around a given number before handing it off to
+-- convertConway, and then concatenates everything
+convert :: [Flag] -> Integer -> T.Text
+convert flags n | n == 0 = "zero"
+                | n < 0  = T.concat [ negativePrefix
+                                    , extract $ S.intersperse sep 
+                                    $ convertConway flags (abs n)
+                                    ]
+                | n > 0  = extract $ S.intersperse sep 
+                                   $ convertConway flags n
+    where
+    sep = if Newline `elem` flags then "\n" else ", "
+    sepNeg = if Newline `elem` flags then "\n" else " "
+    negativePrefix = T.concat ["negative", sepNeg]
+
+-- Convert a positive number according to Conway-Wechsler system
 convertConway :: [Flag] -> Integer -> Fields
-convertConway flags n = splitter
-                      $ join                 -- Combine fields as words/lines
-                      $ S.mapWithIndex f trs -- Convert each triple in n
+convertConway flags n = join $ S.mapWithIndex f trs
     where
     trs = triples n
     trsLen = length trs
     indexToPower i = toInteger (trsLen - i - 1)
-    splitter = if Newline `elem` flags then lineify else S.intersperse ", "
     f i tr = convertRegularWithPower flags tr $ indexToPower i
 
 -- Convert a triple as it expresses a set of three integers times 10^(N * 3)
