@@ -8,6 +8,7 @@ import Data.Char (toLower)
 import Data.Maybe (maybe, fromMaybe)
 import Data.List (intersperse)
 import System.Environment (getArgs)
+import MathParse
 
 -- ============================== MAIN ======================================
 main :: IO ()
