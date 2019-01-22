@@ -1,2 +1,12 @@
 #!/bin/bash
-stack ghc -- -imath-parser conway-wechsler.hs
+if [ -x "$(command -v stackr)" ]; then
+  echo 'Stack is detected as being installed. Running GHC through stack.'
+  stack ghc -- -imath-parser conway-wechsler.hs
+elif [ -x "$(command -v ghc)" ]; then
+  echo 'GHC is detected as being installed standalone. Running.'
+  ghc -imath-parser conway-wechsler.hs
+else
+  echo 'Neither stack nor ghc are detected as being installed.'
+  echo 'Please refer to https://haskell-lang.org/get-started to install Haskell.'
+  echo 'If you are SURE you have ghc / stack installed, please open an issue on https://github.com/dylan-thinnes/conway-wechsler'
+fi
