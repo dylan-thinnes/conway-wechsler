@@ -1,4 +1,8 @@
 *.swp
 *.swo
 
-*
+*.hs
+*.hi
+*.o
+
+conway-wechsler
