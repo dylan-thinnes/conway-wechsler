@@ -3,6 +3,7 @@ Command line utility - Convert numbers into a pronounceable form.
 
 [Usage](#usage)  
 [Installation](#installation)  
+[Development](#development)  
 [What does it do?](#what-does-it-do)  
 [What is Conway-Wechsler form?](#what-is-conway-wechsler-form)
 
@@ -33,6 +34,11 @@ Usage: conway-wechsler [flags]
    [(What is my PATH?)](http://www.linfo.org/path_env_var.html)
    
 Please feel free to open an issue for help.
+
+## Development
+The github page https://github.com/dylan-thinnes/conway-wechsler is the main point for development coordination. Please open issues and pull requests there.
+
+To open ghci w/ the right dependencies, run the "./repl" script.
 
 ## What does it do?
 In English, numbers are pronounced by splitting their digits into sets of three. These sets of three are then read as regular numerals with a suffix denoting the power of ten by which the set is multiplied.
