@@ -11,9 +11,11 @@ Command line utility - Convert numbers into a pronounceable form.
 ```
 Usage: conway-wechsler [flags]
   INPUT
-  <n>: a number composed of digits
+  <n>: a number composed of digits, or a mathematical expression"
+       For more information on valid mathematical expressions, go to"
+       https://github.com/dylan-thinnes/conway-wechsler#mathematical-expressions"
     -: read number composed of digits from stdin,
-       If number is unspecified, this is default
+       If number/expression is unspecified, this is default"
   OUTPUT
    --newline,
    -n: newline between each -illion
@@ -24,6 +26,9 @@ Usage: conway-wechsler [flags]
    --help,
    -h: show usage page
 ```
+
+### Mathematical Expressions
+Mathematical expressions are derived from the [MathParse library](https://github.com/dylan-thinnes/math-parser). Reference its README to see what kinds of mathematical expressions are valid.
 
 ## Installation
 1. Compile to an executable using the provided bash script "./compile".   

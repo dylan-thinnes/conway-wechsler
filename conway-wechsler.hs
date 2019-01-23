@@ -27,9 +27,11 @@ usage :: IO ()
 usage = mapM_ putStrLn $ 
     ["Usage: conway-wechsler [flags]"
     ,"  INPUT"
-    ,"  <n>: a number composed of digits"
+    ,"  <n>: a number composed of digits, or a mathematical expression"
+    ,"       For more information on valid mathematical expressions, go to"
+    ,"       https://github.com/dylan-thinnes/conway-wechsler#mathematical-expressions"
     ,"    -: read number composed of digits from stdin,"
-    ,"       If number is unspecified, this is default"
+    ,"       If number/expression is unspecified, this is default"
     ,"  OUTPUT"
     ,"   --newline,"
     ,"   -n: newline between each -illion"
