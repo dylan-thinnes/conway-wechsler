@@ -80,28 +80,35 @@ parseFlag x
   | otherwise
   = (:[]) <$> maybeToFlagError x (Input <$> tryParseInt x)
 
+-- Checks if a string could be a shorthand flag list (e.g. -hk), and not an
+-- integer / mathematical expression
 isAShorthandFlagList :: String -> Bool
 isAShorthandFlagList ('-':ss) = all (not . isDigit) ss
 isAShorthandFlagList _        = False
 
+-- Try to obtain a flag from a single character
 getFlagFromShorthand :: Char   -> Maybe Flag
 getFlagFromShorthand 'k' = Just KeepNumerals
 getFlagFromShorthand 'n' = Just Newline
 getFlagFromShorthand 'h' = Just Help
 getFlagFromShorthand _   = Nothing
 
+-- Try to obtain a flag from a string
 getFlagFromLonghand  :: String -> Maybe Flag
 getFlagFromLonghand "keep"    = Just KeepNumerals
 getFlagFromLonghand "newline" = Just Newline
 getFlagFromLonghand "help"    = Just Help
 getFlagFromLonghand _         = Nothing
 
+-- Change unfound flags into error messages
 maybeToFlagError :: (Show a) => a -> Maybe Flag -> Either String Flag
 maybeToFlagError s = maybeToEither $ "Invalid flag " ++ show s
 
+-- Combine maybeToFlagError and getFlagFromShorthand
 parseFlagFromShorthand :: Char -> Either String Flag
 parseFlagFromShorthand c = maybeToFlagError c $ getFlagFromShorthand c
 
+-- Combine maybeToFlagError and getFlagFromLonghand
 parseFlagFromLonghand :: String -> Either String Flag
 parseFlagFromLonghand s = maybeToFlagError s $ getFlagFromLonghand s
 
