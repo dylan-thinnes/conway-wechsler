@@ -80,9 +80,6 @@ parseFlag x
   | otherwise
   = (:[]) <$> maybeToFlagError x (Input <$> tryParseInt x)
 
-maybeToFlagError :: (Show a) => a -> Maybe Flag -> Either String Flag
-maybeToFlagError s = maybeToEither $ "Invalid flag " ++ show s
-
 isAShorthandFlagList :: String -> Bool
 isAShorthandFlagList ('-':ss) = all (not . isDigit) ss
 isAShorthandFlagList _        = False
@@ -92,11 +89,21 @@ getFlagFromShorthand 'k' = Just KeepNumerals
 getFlagFromShorthand 'n' = Just Newline
 getFlagFromShorthand 'h' = Just Help
 getFlagFromShorthand _   = Nothing
+
 getFlagFromLonghand  :: String -> Maybe Flag
 getFlagFromLonghand "keep"    = Just KeepNumerals
 getFlagFromLonghand "newline" = Just Newline
 getFlagFromLonghand "help"    = Just Help
 getFlagFromLonghand _         = Nothing
+
+maybeToFlagError :: (Show a) => a -> Maybe Flag -> Either String Flag
+maybeToFlagError s = maybeToEither $ "Invalid flag " ++ show s
+
+parseFlagFromShorthand :: Char -> Either String Flag
+parseFlagFromShorthand c = maybeToFlagError c $ getFlagFromShorthand c
+
+parseFlagFromLonghand :: String -> Either String Flag
+parseFlagFromLonghand s = maybeToFlagError s $ getFlagFromLonghand s
 
 -- Try and find an input flag, and act on it to produce an input Integer
 extractInput :: [Flag] -> IO (Either String Integer)
