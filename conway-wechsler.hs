@@ -74,10 +74,11 @@ parseFlags (s:ss) = do
 parseFlag :: String -> Either String [Flag]
 parseFlag "-"         = Right [Stdin]
 parseFlag ('-':'-':l) = (:[]) <$> maybeToFlagError l (getFlagFromLonghand l)
-parseFlag ('-':ss)    = case tryParseInt ss of
-                          Nothing -> mapM (\s -> maybeToFlagError s $ getFlagFromShorthand s) ss
-                          Just n  -> Right [Input (-n)]
-parseFlag x           = (:[]) <$> maybeToFlagError x (Input <$> tryParseInt x)
+parseFlag x 
+  | isAShorthandFlagList x 
+  = mapM (\s -> maybeToFlagError s $ getFlagFromShorthand s) $ tail x
+  | otherwise
+  = (:[]) <$> maybeToFlagError x (Input <$> tryParseInt x)
 
 maybeToFlagError :: (Show a) => a -> Maybe Flag -> Either String Flag
 maybeToFlagError s = maybeToEither $ "Invalid flag " ++ show s
