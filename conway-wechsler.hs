@@ -4,7 +4,7 @@ import qualified Data.Text     as T
 import qualified Data.Text.IO  as TIO
 import Control.Monad (mzero, liftM, join)
 import Data.Foldable (toList)
-import Data.Char (toLower, isDigit)
+import Data.Char (toLower, isAlpha)
 import Data.Maybe (maybe, fromMaybe)
 import Data.List (intersperse)
 import System.Environment (getArgs)
@@ -80,7 +80,7 @@ parseArgIntoFlags x
 -- Checks if a string could be a shorthand flag list (e.g. -hk), and not an
 -- integer / mathematical expression
 isAShorthandFlagList :: String -> Bool
-isAShorthandFlagList ('-':ss) = all (not . isDigit) ss
+isAShorthandFlagList ('-':ss) = all isAlpha ss
 isAShorthandFlagList _        = False
 
 -- Try to obtain a flag from a single character
