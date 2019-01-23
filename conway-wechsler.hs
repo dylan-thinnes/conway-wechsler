@@ -66,10 +66,7 @@ isInput _         = False
 -- Try parse 0 to many flags from multiple command line arguments
 parseAllArgsIntoFlags :: [String] -> Either String [Flag]
 parseAllArgsIntoFlags [] = Right []
-parseAllArgsIntoFlags (s:ss) = do
-    newFlag <- parseArgIntoFlags s
-    nextFlags <- parseAllArgsIntoFlags ss
-    return $ newFlag ++ nextFlags
+parseAllArgsIntoFlags args = concat <$> mapM parseArgIntoFlags args
 
 -- Try parse 0 to many flags from a single command line argument
 parseArgIntoFlags :: String -> Either String [Flag]
