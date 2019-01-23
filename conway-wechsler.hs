@@ -14,7 +14,7 @@ import MathParse
 main :: IO ()
 main = do
     args <- getArgs
-    handleE (parseFlags args) $ \flags -> do -- Try to get the flags
+    handleE (parseAllArgsIntoFlags args) $ \flags -> do -- Try to get the flags
         if Help `elem` flags -- If Help flag is set, just print usage
         then usage
         else do
@@ -63,18 +63,19 @@ isInput (Input i) = True
 isInput Stdin     = True
 isInput _         = False
 
--- Try parse flags from input arguments
-parseFlags :: [String] -> Either String [Flag]
-parseFlags [] = Right []
-parseFlags (s:ss) = do
-    newFlag <- parseFlag s
-    nextFlags <- parseFlags ss
+-- Try parse 0 to many flags from multiple command line arguments
+parseAllArgsIntoFlags :: [String] -> Either String [Flag]
+parseAllArgsIntoFlags [] = Right []
+parseAllArgsIntoFlags (s:ss) = do
+    newFlag <- parseArgIntoFlags s
+    nextFlags <- parseAllArgsIntoFlags ss
     return $ newFlag ++ nextFlags
 
-parseFlag :: String -> Either String [Flag]
-parseFlag "-"         = Right [Stdin]
-parseFlag ('-':'-':l) = (:[]) <$> parseFlagFromLonghand l
-parseFlag x 
+-- Try parse 0 to many flags from a single command line argument
+parseArgIntoFlags :: String -> Either String [Flag]
+parseArgIntoFlags "-"         = Right [Stdin]
+parseArgIntoFlags ('-':'-':l) = (:[]) <$> parseFlagFromLonghand l
+parseArgIntoFlags x 
   | isAShorthandFlagList x 
   = mapM parseFlagFromShorthand $ tail x
   | otherwise
