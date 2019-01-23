@@ -4,7 +4,7 @@ import qualified Data.Text     as T
 import qualified Data.Text.IO  as TIO
 import Control.Monad (mzero, liftM, join)
 import Data.Foldable (toList)
-import Data.Char (toLower)
+import Data.Char (toLower, isDigit)
 import Data.Maybe (maybe, fromMaybe)
 import Data.List (intersperse)
 import System.Environment (getArgs)
@@ -81,6 +81,10 @@ parseFlag x           = (:[]) <$> maybeToFlagError x (Input <$> tryParseInt x)
 
 maybeToFlagError :: (Show a) => a -> Maybe Flag -> Either String Flag
 maybeToFlagError s = maybeToEither $ "Invalid flag " ++ show s
+
+isAShorthandFlagList :: String -> Bool
+isAShorthandFlagList ('-':ss) = all (not . isDigit) ss
+isAShorthandFlagList _        = False
 
 getFlagFromShorthand :: Char   -> Maybe Flag
 getFlagFromShorthand 'k' = Just KeepNumerals
