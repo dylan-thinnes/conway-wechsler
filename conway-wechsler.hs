@@ -8,7 +8,7 @@ import Data.Char (toLower, isAlpha)
 import Data.Maybe (maybe, fromMaybe)
 import Data.List (intersperse)
 import System.Environment (getArgs)
-import MathParse
+import qualified MathParse as MP
 
 -- ============================== MAIN ======================================
 main :: IO ()
@@ -54,11 +54,11 @@ data Flag = Newline
           | KeepNumerals 
           | Help
           | Stdin
-          | Input Integer
+          | Input MP.Expr
           deriving (Eq, Show)
 
 isInput :: Flag -> Bool
-isInput (Input i) = True
+isInput (Input e) = True
 isInput Stdin     = True
 isInput _         = False
 
@@ -75,7 +75,7 @@ parseArgIntoFlags x
   | isAShorthandFlagList x 
   = mapM parseFlagFromShorthand $ tail x
   | otherwise
-  = (:[]) <$> maybeToFlagError x (Input <$> tryParseInt x)
+  = (:[]) <$> Input <$> tryStrToExpr x
 
 -- Checks if a string could be a shorthand flag list (e.g. -hk), and not an
 -- integer / mathematical expression
@@ -136,9 +136,16 @@ multipleInputFlagsError fs = Left
 tryGetInput :: Flag -> IO (Either String Integer)
 tryGetInput Stdin     = do
     inp <- getLine
-    let attempt = tryParseInt inp
-    return $ maybeToEither "Could not parse a number from stdin." attempt
-tryGetInput (Input i) = return $ Right i
+    return $ tryExprToInt =<< tryStrToExpr inp
+tryGetInput (Input e) = return $ tryExprToInt e
+
+-- | Try to turn a string into an expression
+tryStrToExpr :: String -> Either String MP.Expr
+tryStrToExpr = MP.parseToExprStr
+
+-- | Try to turn an expression into an Integer
+tryExprToInt :: MP.Expr -> Either String Integer
+tryExprToInt = MP.reduceStr
 
 -- | Map maybe to an Either value, supplying the default Left value
 maybeToEither :: a -> Maybe b -> Either a b
