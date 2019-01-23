@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ -x "$(command -v stackr)" ]; then
+if [ -x "$(command -v stack)" ]; then
   echo 'Stack is detected as being installed. Running GHCi through stack.'
   stack ghci --ghci-options -imath-parser conway-wechsler.hs
 elif [ -x "$(command -v ghc)" ]; then
