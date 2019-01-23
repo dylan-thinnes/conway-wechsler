@@ -32,7 +32,8 @@ Mathematical expressions are derived from the [MathParse library](https://github
 
 ## Installation
 1. Compile to an executable using the provided bash script "./compile".   
-   If you are on Windows, try copy pasting the correct commands in the bash script.
+   If you are on Windows, try copy pasting the correct commands in the bash
+   script.  
    [(Getting started with Haskell)](https://haskell-lang.org/get-started)
 2. Rename the executable to whatever you'd like to be called.
 3. Put it in your PATH.  
