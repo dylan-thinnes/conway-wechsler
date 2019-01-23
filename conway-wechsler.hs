@@ -48,7 +48,6 @@ handleE :: Either String a -> (a -> IO ()) -> IO ()
 handleE (Left s)  _       = putStrLn s >> usage 
 handleE (Right s) handler = handler s
 
-
 -- ============================== FLAGS =====================================
 -- Express all possible flags that can be passed to the command line
 data Flag = Newline 
