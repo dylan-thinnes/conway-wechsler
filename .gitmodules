@@ -1,0 +1,3 @@
+[submodule "math-parser"]
+	path = math-parser
+	url = https://github.com/dylan-thinnes/math-parser.git
