@@ -3,6 +3,7 @@
 import qualified Data.Sequence as S
 import qualified Data.Text     as T
 import qualified Data.Text.IO  as TIO
+import Data.Word (Word8)
 import Control.Monad (mzero, liftM, join)
 import Data.Foldable (toList)
 import Data.Char (toLower, isAlpha)
@@ -193,20 +194,23 @@ lineify = S.intersperse "\n"
 -- | Data type for storing & unstoring groups of numbers by three
 -- This will help in inflecting both normal numbers and prefixes for zillions
 data Triple = Triple {
-                hun :: Int,
-                ten :: Int,
-                one :: Int
+                hun :: Word8,
+                ten :: Word8,
+                one :: Word8
               }
     deriving (Show,Eq)
 
 -- | Turn a sequence of ints into a Triple
-intsToTriple :: S.Seq Int -> Triple
+intsToTriple :: S.Seq Word8 -> Triple
 intsToTriple [h,t,o] = Triple h t o
 intsToTriple xs = error "Can't create triple from xs."
 
 -- | Turn a triple back into an integral value
 tripleToInt :: Integral a => Triple -> a
-tripleToInt (Triple h t o) = fromIntegral $ h * 100 + t * 10 + o
+tripleToInt (Triple h t o) = let h' = fromIntegral h
+                                 t' = fromIntegral t
+                                 o' = fromIntegral o
+                              in h' * 100 + t' * 10 + o'
 
 -- | Pull all sequential groups of three numbers from an Integer
 -- Start at the rightmost ones place, and go up. Pad the last Triple if
@@ -221,7 +225,7 @@ triples n = intsToTriple <$> S.chunksOf 3 paddedRaw
     lTriple = ceiling $ fromIntegral lRaw / 3
 
 -- | Get all digits from Integer as a sequence of Ints
-rawPlaces :: Integer -> S.Seq Int
+rawPlaces :: Integer -> S.Seq Word8
 rawPlaces n = S.fromList $ map f $ show n
     where
     f '0' = 0
@@ -320,7 +324,7 @@ appendIlli t = fromMaybe T.empty $ do
 
 -- | Determine the prefixes for a value in the ones, tens, and hundreds place
 -- according to C-W
-powerOnes, powerTens, powerHuns :: Int -> Fields
+powerOnes, powerTens, powerHuns :: Word8 -> Fields
 powerOnes 0 = mzero
 powerOnes 1 = pure "un"
 powerOnes 2 = pure "duo"
@@ -368,7 +372,7 @@ pluralizeTriple t = inflectOnes (one t) $ tripleInflection t
 
 -- | Given inflection markers and a ones place to apply them to, returns the
 -- correct suffix or none at all
-inflectOnes :: Int -> Infs -> Fields
+inflectOnes :: Word8 -> Infs -> Fields
 inflectOnes 3 (_,       Just p)  = pure "s"
 inflectOnes 6 (_,       Just p)  = pure $ T.map toLower $ T.pack $ show p
 inflectOnes 7 (Just p,  _)       = pure $ T.map toLower $ T.pack $ show p
@@ -383,7 +387,7 @@ tripleInflection (Triple n 0 _) = hunsInflection n
 tripleInflection (Triple _ n _) = tensInflection n
 
 -- | Extract the inflection markers of each hundreds place
-hunsInflection :: Int -> Infs
+hunsInflection :: Word8 -> Infs
 hunsInflection 1 = (Just N  , Just X)
 hunsInflection 2 = (Just N  , Nothing)
 hunsInflection 3 = (Just N  , Just S)
@@ -395,7 +399,7 @@ hunsInflection 8 = (Just M  , Just X)
 hunsInflection 9 = (Nothing , Nothing)
 
 -- | Extract the inflection markers of each tens place
-tensInflection :: Int -> Infs
+tensInflection :: Word8 -> Infs
 tensInflection 1 = (Just N  , Nothing)
 tensInflection 2 = (Just M  , Just S)
 tensInflection 3 = (Just N  , Just S)
