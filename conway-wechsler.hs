@@ -149,11 +149,11 @@ tryGetInput (Input e) = return $ tryExprToInt e
 
 -- | Try to turn a string into an expression
 tryStrToExpr :: String -> Either String MP.Expr
-tryStrToExpr = left MP.printParseError . MP.parseToExpr
+tryStrToExpr = left show . MP.parseToExpr
 
 -- | Try to turn an expression into an Integer
 tryExprToInt :: MP.Expr -> Either String Integer
-tryExprToInt = left MP.printReduceError . MP.reduceWithConstraints constraints
+tryExprToInt = left show . MP.reduceWithConstraints constraints
     where
     constraints :: [MP.Constraint]
     constraints =
