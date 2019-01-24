@@ -153,7 +153,15 @@ tryStrToExpr = left MP.printParseError . MP.parseToExpr
 
 -- | Try to turn an expression into an Integer
 tryExprToInt :: MP.Expr -> Either String Integer
-tryExprToInt = left MP.printReduceError . MP.reduce
+tryExprToInt = left MP.printReduceError . MP.reduceWithConstraints constraints
+    where
+    constraints :: [MP.Constraint]
+    constraints =
+      [ MP.Constraint MP.Exponentiate (>100)       (>100000)  MP.TooLarge
+      , MP.Constraint MP.Exponentiate (const True) (>1000000) MP.TooLarge
+      , MP.Constraint MP.Exponentiate (const True) (<0)       MP.NegativePower
+      ]
+
 
 -- | Map maybe to an Either value, supplying the default Left value
 maybeToEither :: a -> Maybe b -> Either a b
