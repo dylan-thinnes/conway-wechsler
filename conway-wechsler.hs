@@ -10,6 +10,7 @@ import Data.Char (toLower, isAlpha)
 import Data.Maybe (maybe, fromMaybe)
 import Data.List (intersperse)
 import System.Environment (getArgs)
+import Control.Arrow (left)
 import qualified MathParse as MP
 
 -- ============================== MAIN ======================================
@@ -148,11 +149,11 @@ tryGetInput (Input e) = return $ tryExprToInt e
 
 -- | Try to turn a string into an expression
 tryStrToExpr :: String -> Either String MP.Expr
-tryStrToExpr = MP.parseToExprStr
+tryStrToExpr = left MP.printParseError . MP.parseToExpr
 
 -- | Try to turn an expression into an Integer
 tryExprToInt :: MP.Expr -> Either String Integer
-tryExprToInt = MP.reduceStr
+tryExprToInt = left MP.printReduceError . MP.reduce
 
 -- | Map maybe to an Either value, supplying the default Left value
 maybeToEither :: a -> Maybe b -> Either a b
