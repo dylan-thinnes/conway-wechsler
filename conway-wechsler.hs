@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedLists #-}
 import qualified Data.Sequence as S
 import qualified Data.Text     as T
 import qualified Data.Text.IO  as TIO
@@ -24,7 +25,10 @@ main = do
 
 -- Print usage
 usage :: IO ()
-usage = mapM_ putStrLn $ 
+usage = mapM_ putStrLn ls
+  where
+  ls :: [String]
+  ls = 
     ["Usage: conway-wechsler [flags]"
     ,"  INPUT"
     ,"  <n>: a number composed of digits, or a mathematical expression"
@@ -197,7 +201,8 @@ data Triple = Triple {
 
 -- | Turn a sequence of ints into a Triple
 intsToTriple :: S.Seq Int -> Triple
-intsToTriple s = Triple (S.index s 0) (S.index s 1) (S.index s 2)
+intsToTriple [h,t,o] = Triple h t o
+intsToTriple xs = error "Can't create triple from xs."
 
 -- | Turn a triple back into an integral value
 tripleToInt :: Integral a => Triple -> a
