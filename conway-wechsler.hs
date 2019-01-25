@@ -12,6 +12,7 @@ import Data.Maybe (maybe, fromMaybe)
 import Data.List (intersperse)
 import System.Environment (getArgs)
 import Control.Arrow (left)
+import System.IO (stderr, hPutStrLn)
 import qualified MathParse as MP
 
 -- ============================== MAIN ======================================
@@ -29,7 +30,7 @@ main = do
 
 -- Print usage
 usage :: IO ()
-usage = mapM_ putStrLn ls
+usage = mapM_ (hPutStrLn stderr) ls
   where
   ls :: [String]
   ls = 
@@ -57,7 +58,7 @@ usage = mapM_ putStrLn ls
 -- * If it's an error, print error messaage and then usage
 -- * Otherwise, pass the result to the handler
 handleE :: Either String a -> (a -> IO ()) -> IO ()
-handleE (Left s)  _       = putStrLn s >> usage 
+handleE (Left s)  _       = hPutStrLn stderr s >> usage 
 handleE (Right s) handler = handler s
 
 -- ============================== FLAGS =====================================
