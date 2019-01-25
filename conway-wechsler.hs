@@ -22,6 +22,8 @@ main = do
     handleE (parseAllArgsIntoFlags args) $ \flags -> -- Try to get the flags
         if | Help `elem` flags -- If Help flag is set, just print usage
            -> usage
+           | OnlyParse `elem` flags -- If OnlyParse, just print parsed expr
+           -> undefined
            | otherwise -- Otherwise, try to extract a meaningful input
            -> do
                 inp <- extractInput flags
