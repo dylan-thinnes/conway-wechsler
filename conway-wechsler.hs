@@ -127,14 +127,19 @@ parseFlagFromLonghand s = maybeToFlagError s $ getFlagFromLonghand s
 
 -- Try and find an input flag, and act on it to produce an input Integer
 extractInput :: [Flag] -> IO (Either String Integer)
-extractInput flags 
-  | length inputFlags == 1 = tryGetInput $ head inputFlags
-  | length inputFlags == 0 = tryGetInput Stdin
-  | otherwise              = return $ multipleInputFlagsError inputFlags
+extractInput flags = case getInputFromFlags flags of
+                        Left x  -> return $ Left x
+                        Right f -> tryGetInput f
+
+getInputFromFlags :: [Flag] -> Either String Flag
+getInputFromFlags flags
+  | length inputFlags == 1 = Right $ head inputFlags
+  | length inputFlags == 0 = Right $ Stdin
+  | otherwise              = multipleInputFlagsError inputFlags
     where
     inputFlags = filter isInput flags
 
-multipleInputFlagsError :: [Flag] -> Either String Integer
+multipleInputFlagsError :: [Flag] -> Either String a
 multipleInputFlagsError fs = Left
                            $ ("Two or more arguments specify an input, " ++)
                            $ concat $ intersperse " and "
