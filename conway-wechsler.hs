@@ -48,7 +48,7 @@ usage = mapM_ (hPutStrLn stderr) ls
     ,"   -k: express numbers < 1000 as numerals, not words"
     ,"       also, write 'negative' as '-'"
     ,"   --only-parse,"
-    ,"   -o: Only parse the expression"
+    ,"   -o: Only print the parse of a given mathematical expression"
     ,"  MISCELLANEOUS"
     ,"   --help,"
     ,"   -h: show usage page"
