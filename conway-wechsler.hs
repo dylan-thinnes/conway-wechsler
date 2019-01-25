@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE OverloadedLists #-}
+{-# LANGUAGE MultiWayIf #-}
 import qualified Data.Sequence as S
 import qualified Data.Text     as T
 import qualified Data.Text.IO  as TIO
@@ -17,13 +18,14 @@ import qualified MathParse as MP
 main :: IO ()
 main = do
     args <- getArgs
-    handleE (parseAllArgsIntoFlags args) $ \flags -> do -- Try to get the flags
-        if Help `elem` flags -- If Help flag is set, just print usage
-        then usage
-        else do
-            inp <- extractInput flags
-            handleE inp $ \n -> do  -- Try to extract a meaningful input
-                TIO.putStrLn $ convert flags n
+    handleE (parseAllArgsIntoFlags args) $ \flags -> -- Try to get the flags
+        if | Help `elem` flags -- If Help flag is set, just print usage
+           -> usage
+           | otherwise -- Otherwise, try to extract a meaningful input
+           -> do
+                inp <- extractInput flags
+                handleE inp $ \n -> do 
+                    TIO.putStrLn $ convert flags n
 
 -- Print usage
 usage :: IO ()
@@ -44,6 +46,8 @@ usage = mapM_ putStrLn ls
     ,"   --keep,"
     ,"   -k: express numbers < 1000 as numerals, not words"
     ,"       also, write 'negative' as '-'"
+    ,"   --only-parse,"
+    ,"   -o: Only parse the expression"
     ,"  MISCELLANEOUS"
     ,"   --help,"
     ,"   -h: show usage page"
