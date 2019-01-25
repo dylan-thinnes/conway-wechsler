@@ -22,8 +22,6 @@ main = do
     handleE (parseAllArgsIntoFlags args) $ \flags -> -- Try to get the flags
         if | Help `elem` flags -- If Help flag is set, just print usage
            -> usage
-           | OnlyParse `elem` flags -- If OnlyParse, just print parsed expr
-           -> undefined
            | otherwise -- Otherwise, try to extract a meaningful input
            -> do
                 inp <- extractInput flags
@@ -49,8 +47,6 @@ usage = mapM_ (hPutStrLn stderr) ls
     ,"   --keep,"
     ,"   -k: express numbers < 1000 as numerals, not words"
     ,"       also, write 'negative' as '-'"
-    ,"   --only-parse,"
-    ,"   -o: Only print the parse of a given mathematical expression"
     ,"  MISCELLANEOUS"
     ,"   --help,"
     ,"   -h: show usage page"
@@ -67,7 +63,6 @@ handleE (Right s) handler = handler s
 -- Express all possible flags that can be passed to the command line
 data Flag = Newline 
           | KeepNumerals 
-          | OnlyParse
           | Help
           | Stdin
           | Input MP.Expr
@@ -104,7 +99,6 @@ getFlagFromShorthand :: Char   -> Maybe Flag
 getFlagFromShorthand 'k' = Just KeepNumerals
 getFlagFromShorthand 'n' = Just Newline
 getFlagFromShorthand 'h' = Just Help
-getFlagFromShorthand 'o' = Just OnlyParse
 getFlagFromShorthand _   = Nothing
 
 -- Try to obtain a flag from a string
@@ -112,7 +106,6 @@ getFlagFromLonghand  :: String -> Maybe Flag
 getFlagFromLonghand "keep"       = Just KeepNumerals
 getFlagFromLonghand "newline"    = Just Newline
 getFlagFromLonghand "help"       = Just Help
-getFlagFromLonghand "only-parse" = Just OnlyParse
 getFlagFromLonghand _            = Nothing
 
 -- Change unfound flags into error messages
