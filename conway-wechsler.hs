@@ -65,6 +65,7 @@ handleE (Right s) handler = handler s
 -- Express all possible flags that can be passed to the command line
 data Flag = Newline 
           | KeepNumerals 
+          | OnlyParse
           | Help
           | Stdin
           | Input MP.Expr
@@ -101,14 +102,16 @@ getFlagFromShorthand :: Char   -> Maybe Flag
 getFlagFromShorthand 'k' = Just KeepNumerals
 getFlagFromShorthand 'n' = Just Newline
 getFlagFromShorthand 'h' = Just Help
+getFlagFromShorthand 'o' = Just OnlyParse
 getFlagFromShorthand _   = Nothing
 
 -- Try to obtain a flag from a string
 getFlagFromLonghand  :: String -> Maybe Flag
-getFlagFromLonghand "keep"    = Just KeepNumerals
-getFlagFromLonghand "newline" = Just Newline
-getFlagFromLonghand "help"    = Just Help
-getFlagFromLonghand _         = Nothing
+getFlagFromLonghand "keep"       = Just KeepNumerals
+getFlagFromLonghand "newline"    = Just Newline
+getFlagFromLonghand "help"       = Just Help
+getFlagFromLonghand "only-parse" = Just OnlyParse
+getFlagFromLonghand _            = Nothing
 
 -- Change unfound flags into error messages
 maybeToFlagError :: (Show a) => a -> Maybe Flag -> Either String Flag
