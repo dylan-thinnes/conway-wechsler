@@ -153,13 +153,12 @@ tryStrToExpr = left show . MP.parseToExpr
 
 -- | Try to turn an expression into an Integer
 tryExprToInt :: MP.Expr -> Either String Integer
-tryExprToInt = left show . MP.reduceWithConstraints constraints
+tryExprToInt = left show . MP.reduceSafe constraints
     where
     constraints :: [MP.Constraint]
     constraints =
       [ MP.Constraint MP.Exponentiate (>100)       (>100000)  MP.TooLarge
       , MP.Constraint MP.Exponentiate (const True) (>1000000) MP.TooLarge
-      , MP.Constraint MP.Exponentiate (const True) (<0)       MP.NegativePower
       ]
 
 
