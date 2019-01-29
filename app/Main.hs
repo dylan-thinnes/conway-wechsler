@@ -48,6 +48,8 @@ usage = mapM_ (hPutStrLn stderr) ls
     ,"   --keep,"
     ,"   -k: express numbers < 1000 as numerals, not words"
     ,"       also, write 'negative' as '-'"
+    ,"   --verbose,"
+    ,"   -v: print verbose status updates"
     ,"  MISCELLANEOUS"
     ,"   --help,"
     ,"   -h: show usage page"
@@ -64,6 +66,7 @@ handleE (Right s) handler = handler s
 -- Express all possible flags that can be passed to the command line
 data Flag = Newline 
           | KeepNumerals 
+          | Verbose
           | Help
           | Stdin
           | Input MP.Expr
@@ -100,6 +103,7 @@ getFlagFromShorthand :: Char   -> Maybe Flag
 getFlagFromShorthand 'k' = Just KeepNumerals
 getFlagFromShorthand 'n' = Just Newline
 getFlagFromShorthand 'h' = Just Help
+getFlagFromShorthand 'v' = Just Verbose
 getFlagFromShorthand _   = Nothing
 
 -- Try to obtain a flag from a string
@@ -107,6 +111,7 @@ getFlagFromLonghand  :: String -> Maybe Flag
 getFlagFromLonghand "keep"       = Just KeepNumerals
 getFlagFromLonghand "newline"    = Just Newline
 getFlagFromLonghand "help"       = Just Help
+getFlagFromLonghand "verbose"    = Just Verbose
 getFlagFromLonghand _            = Nothing
 
 -- Change unfound flags into error messages
