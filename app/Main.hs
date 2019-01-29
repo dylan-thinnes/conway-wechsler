@@ -26,7 +26,9 @@ main = do
            -> do
                 inp <- extractInput flags
                 handleE inp $ \n -> do 
-                    print n
+                    if Verbose `elem` flags
+                       then hPutStrLn stderr $ "Parsed number: " ++ show n
+                       else pure ()
                     TIO.putStrLn $ convert flags n
 
 -- Print usage
