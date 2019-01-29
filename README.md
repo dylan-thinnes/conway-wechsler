@@ -31,7 +31,7 @@ Usage: conway-wechsler [flags]
 Mathematical expressions are derived from the [MathParse library](https://github.com/dylan-thinnes/math-parser). Reference its README to see what kinds of mathematical expressions are valid.
 
 ## Installation
-1. Compile to an executable using the provided bash script "./compile".   
+1. Compile to an executable using `stack`.
    If you are on Windows, try copy pasting the correct commands in the bash
    script.  
    [(Getting started with Haskell)](https://haskell-lang.org/get-started)
@@ -44,7 +44,7 @@ Please feel free to open an issue for help.
 ## Development
 The github page https://github.com/dylan-thinnes/conway-wechsler is the main point for development coordination. Please open issues and pull requests there.
 
-To open ghci w/ the right dependencies, run the "./repl" script.
+To open ghci, please use `stack run`.
 
 ## What does it do?
 In English, numbers are pronounced by splitting their digits into sets of three. These sets of three are then read as regular numerals with a suffix denoting the power of ten by which the set is multiplied.
