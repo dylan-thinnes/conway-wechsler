@@ -21,14 +21,14 @@ description:         Please see the README on GitHub at <https://github.com/dyla
 dependencies:
 - base >= 4.7 && < 5
 - math-parse
+- text >= 1.2 && < 2
+- containers >= 0.6 && < 1
 
 executables:
-  conway-wechsler-exe:
+  conway-wechsler:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-    dependencies:
-    - conway-wechsler
