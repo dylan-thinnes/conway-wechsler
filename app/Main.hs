@@ -26,6 +26,7 @@ main = do
            -> do
                 inp <- extractInput flags
                 handleE inp $ \n -> do 
+                    print n
                     TIO.putStrLn $ convert flags n
 
 -- Print usage
