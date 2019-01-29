@@ -6,3 +6,5 @@
 *.o
 
 conway-wechsler
+
+.stack-work
