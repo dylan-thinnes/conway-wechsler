@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 845d50d02532efbbdc73031e485b9edfd7ac69a735b3b47310ee774047285eee
+-- hash: d0ddfa2390cbf4faa5b04e29baa4271dd519f5b7e23017f86be84001f0a7b3e7
 
 name:           conway-wechsler
 version:        0.1.0.0
@@ -17,14 +17,13 @@ license-file:   LICENSE
 build-type:     Simple
 cabal-version:  >= 1.10
 extra-source-files:
-    ChangeLog.md
     README.md
 
 source-repository head
   type: git
   location: https://github.com/dylan-thinnes/conway-wechsler
 
-executable conway-wechsler-exe
+executable conway-wechsler
   main-is: Main.hs
   other-modules:
       Paths_conway_wechsler
@@ -33,6 +32,7 @@ executable conway-wechsler-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
-    , conway-wechsler
+    , containers >=0.6 && <1
     , math-parse
+    , text >=1.2 && <2
   default-language: Haskell2010
