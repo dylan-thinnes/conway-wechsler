@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d0ddfa2390cbf4faa5b04e29baa4271dd519f5b7e23017f86be84001f0a7b3e7
+-- hash: 4a9b00aaaf6ca84359c454211e80bc2a1d805184998fc9330bddb81806b2fa4a
 
 name:           conway-wechsler
 version:        0.1.0.0
@@ -12,7 +12,7 @@ bug-reports:    https://github.com/dylan-thinnes/conway-wechsler/issues
 author:         Dylan Thinnes
 maintainer:     dylan.thinnes@protonmail.com
 copyright:      2019 Dylan Thinnes
-license:        BSD3
+license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 cabal-version:  >= 1.10
@@ -29,7 +29,6 @@ executable conway-wechsler
       Paths_conway_wechsler
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , containers >=0.6 && <1
