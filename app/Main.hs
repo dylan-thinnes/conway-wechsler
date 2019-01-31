@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE OverloadedLists #-}
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE MultiWayIf #-}
 import qualified Data.Sequence as S
 import qualified Data.Text     as T
@@ -13,23 +14,39 @@ import Data.List (intersperse)
 import System.Environment (getArgs)
 import Control.Arrow (left)
 import System.IO (stderr, hPutStrLn)
+import Control.Monad.Trans.Except (ExceptT, runExceptT, throwE)
+import Control.Error.Safe (tryRight)
+import Control.Monad.Trans.Class (lift)
 import qualified MathParse as MP
 
 -- ============================== MAIN ======================================
 main :: IO ()
-main = do
-    args <- getArgs
-    handleE (parseAllArgsIntoFlags args) $ \flags -> -- Try to get the flags
-        if | Help `elem` flags -- If Help flag is set, just print usage
-           -> usage
-           | otherwise -- Otherwise, try to extract a meaningful input
-           -> do
-                inp <- extractInput flags
-                handleE inp $ \n -> do 
-                    if Verbose `elem` flags
-                       then hPutStrLn stderr $ "Parsed number: " ++ show n
-                       else pure ()
-                    TIO.putStrLn $ convert flags n
+main = runExceptT compute >>= \case
+    Left str -> hPutStrLn stderr str >> usage
+    Right () -> return ()
+
+compute :: ExceptT String IO ()
+compute = do
+     -- Try to get the flags
+    args <- lift getArgs
+    flags <- tryRight $ parseAllArgsIntoFlags args
+
+     -- If Help flag is set, just print usage
+    if Help `elem` flags
+    then throwE "Printing usage."
+    else return ()
+
+    -- Try parse input from flags
+    inp <- lift $ extractInput flags
+    n <- tryRight inp
+
+    -- If Verbose flag is set, print resulting parsed number
+    if Verbose `elem` flags
+       then lift $ hPutStrLn stderr $ "Parsed number: " ++ show n
+       else pure ()
+
+    -- Print number converted to Conway-Wechsler form
+    lift $ TIO.putStrLn $ convert flags n
 
 -- Print usage
 usage :: IO ()
@@ -56,13 +73,6 @@ usage = mapM_ (hPutStrLn stderr) ls
     ,"   --help,"
     ,"   -h: show usage page"
     ]
-
--- Handle Either String by
--- * If it's an error, print error messaage and then usage
--- * Otherwise, pass the result to the handler
-handleE :: Either String a -> (a -> IO ()) -> IO ()
-handleE (Left s)  _       = hPutStrLn stderr s >> usage 
-handleE (Right s) handler = handler s
 
 -- ============================== FLAGS =====================================
 -- Express all possible flags that can be passed to the command line
