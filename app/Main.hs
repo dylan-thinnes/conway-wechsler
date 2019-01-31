@@ -6,7 +6,7 @@ import qualified Data.Sequence as S
 import qualified Data.Text     as T
 import qualified Data.Text.IO  as TIO
 import Data.Word (Word8)
-import Control.Monad (mzero, liftM, join)
+import Control.Monad (mzero, liftM, join, when)
 import Data.Foldable (toList)
 import Data.Char (toLower, isAlpha)
 import Data.Maybe (maybe, fromMaybe)
@@ -32,18 +32,16 @@ compute = do
     flags <- tryRight $ parseAllArgsIntoFlags args
 
      -- If Help flag is set, just print usage
-    if Help `elem` flags
-    then throwE "Printing usage."
-    else return ()
+    when (Help `elem` flags) 
+        $ throwE "Printing usage."
 
     -- Try parse input from flags
     inp <- lift $ extractInput flags
     n <- tryRight inp
 
     -- If Verbose flag is set, print resulting parsed number
-    if Verbose `elem` flags
-       then lift $ hPutStrLn stderr $ "Parsed number: " ++ show n
-       else pure ()
+    when (Verbose `elem` flags) 
+        $ lift $ hPutStrLn stderr $ "Parsed number: " ++ show n
 
     -- Print number converted to Conway-Wechsler form
     lift $ TIO.putStrLn $ convert flags n
