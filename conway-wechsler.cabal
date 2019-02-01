@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f8068ec6fec4c2aa237a09ae87a50240cacf4684b47561d0c6d7f24e3c28ce7c
+-- hash: e2389791803fa8331676a79df6d7729b7534857be52769d6b8d0ba1f3de423c5
 
 name:           conway-wechsler
 version:        0.1.0.0
@@ -26,6 +26,8 @@ source-repository head
 executable conway-wechsler
   main-is: Main.hs
   other-modules:
+      Converter
+      Flags
       Paths_conway_wechsler
   hs-source-dirs:
       app
