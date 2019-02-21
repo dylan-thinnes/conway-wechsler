@@ -123,6 +123,10 @@ tryExprToInt = left show . MP.runReduce (MP.reduceSafe constraints)
           { MP.conds = MP.BinaryExprF MP.Exponentiate (const True) (>1000000)
           , MP.err   = MP.TooLarge
           }
+      , MP.Constraint 
+          { MP.conds = MP.UnaryExprF MP.Factorial (>1000)
+          , MP.err   = MP.TooLarge
+          }
       ]
 
 
