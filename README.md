@@ -22,6 +22,8 @@ Usage: conway-wechsler [flags]
    --keep,
    -k: express numbers < 1000 as numerals, not words
        also, write 'negative' as '-'
+   --verbose,
+   -v: print verbose status updates
   MISCELLANEOUS
    --help,
    -h: show usage page
