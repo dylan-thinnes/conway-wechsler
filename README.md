@@ -44,7 +44,7 @@ Please feel free to open an issue for help.
 ## Development
 The github page https://github.com/dylan-thinnes/conway-wechsler is the main point for development coordination. Please open issues and pull requests there.
 
-To open ghci, please use `stack run`.
+To open ghci, please use `stack ghci`.
 
 ## What does it do?
 In English, numbers are pronounced by splitting their digits into sets of three. These sets of three are then read as regular numerals with a suffix denoting the power of ten by which the set is multiplied.
