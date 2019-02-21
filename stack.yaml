@@ -41,7 +41,7 @@ packages:
 # extra-deps: []
 extra-deps:
 - git: git@github.com:dylan-thinnes/math-parser.git
-  commit: 7a837edfc29af109f0846a9e95f84414f2069f89
+  commit: 636756d373cbb9c770848e56d56208473a337f41
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

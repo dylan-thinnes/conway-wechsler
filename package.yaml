@@ -20,7 +20,7 @@ description:         Please see the README on GitHub at <https://github.com/dyla
 
 dependencies:
 - base >= 4.7 && < 5
-- math-parse == 0.1.0.0
+- math-parse == 0.2.0.0
 - text >= 1.2 && < 2
 - transformers >= 0.5.5 && < 0.6
 - errors >= 2.3 && < 2.4

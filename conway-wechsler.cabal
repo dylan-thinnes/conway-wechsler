@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e2389791803fa8331676a79df6d7729b7534857be52769d6b8d0ba1f3de423c5
+-- hash: 2c7370137ded9a761baf5129dfdfe5ce1b0b30396aa52022823cf2222877af1e
 
 name:           conway-wechsler
 version:        0.1.0.0
@@ -35,7 +35,7 @@ executable conway-wechsler
       base >=4.7 && <5
     , containers >=0.6 && <0.7
     , errors >=2.3 && <2.4
-    , math-parse ==0.1.0.0
+    , math-parse ==0.2.0.0
     , text >=1.2 && <2
     , transformers >=0.5.5 && <0.6
   default-language: Haskell2010
