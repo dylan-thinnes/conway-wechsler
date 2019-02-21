@@ -47,7 +47,7 @@ usage = mapM_ (hPutStrLn stderr) ls
     ,"  <n>: a number composed of digits, or a mathematical expression"
     ,"       For more information on valid mathematical expressions, go to"
     ,"       https://github.com/dylan-thinnes/conway-wechsler#mathematical-expressions"
-    ,"    -: read number composed of digits from stdin,"
+    ,"    -: read <n> from stdin"
     ,"       If number/expression is unspecified, this is default"
     ,"  OUTPUT"
     ,"   --newline,"
