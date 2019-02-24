@@ -40,7 +40,7 @@ packages:
 # (e.g., acme-missiles-0.3)
 # extra-deps: []
 extra-deps:
-- git: git@github.com:dylan-thinnes/math-parser.git
+- git: https://github.com/dylan-thinnes/math-parser.git
   commit: 636756d373cbb9c770848e56d56208473a337f41
 
 # Override default flag values for local packages and extra-deps
