@@ -71,10 +71,10 @@ parseFlagFromLonghand :: String -> Either String Flag
 parseFlagFromLonghand s = maybeToFlagError s $ getFlagFromLonghand s
 
 -- Try and find an input flag, and act on it to produce an input Integer
-extractInput :: [Flag] -> IO (Either String Integer)
-extractInput flags = case getInputFromFlags flags of
-                        Left x  -> return $ Left x
-                        Right f -> tryGetInput f
+extractInput :: Bool -> [Flag] -> IO (Either String Integer)
+extractInput safe flags = case getInputFromFlags flags of
+                            Left x  -> return $ Left x
+                            Right f -> tryGetInput safe f
 
 getInputFromFlags :: [Flag] -> Either String Flag
 getInputFromFlags flags
@@ -99,9 +99,9 @@ multipleInputFlagsError fs = Left
 -- Integer value
 -- * Stdin means try read from stdin
 -- * Input i means just return i
-tryGetInput :: Flag -> IO (Either String Integer)
-tryGetInput Stdin     = (Input <$> getLine) >>= tryGetInput
-tryGetInput (Input s) = return $ tryExprToInt True =<< tryStrToExpr s
+tryGetInput :: Bool -> Flag -> IO (Either String Integer)
+tryGetInput safe Stdin     = (Input <$> getLine) >>= tryGetInput safe
+tryGetInput safe (Input s) = return $ tryExprToInt safe =<< tryStrToExpr s
 
 -- | Try to turn a string into an expression
 tryStrToExpr :: String -> Either String MP.Expr
