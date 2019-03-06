@@ -96,12 +96,12 @@ multipleInputFlagsError fs = Left
     showInput _         = error "Non-input flag supplied to showInput"
 
 -- | Try and turn one of two input flags, Stdin or Input n, into a meaningful
--- String value
+-- Integer value
 -- * Stdin means try read from stdin
--- * Input s means just return s
-tryGetInput :: Flag -> IO (Either String String)
-tryGetInput Stdin     = getLine
-tryGetInput (Input s) = pure s
+-- * Input i means just return i
+tryGetInput :: Flag -> IO (Either String Integer)
+tryGetInput Stdin     = (Input <$> getLine) >>= tryGetInput
+tryGetInput (Input s) = return $ tryExprToInt True =<< tryStrToExpr s
 
 -- | Try to turn a string into an expression
 tryStrToExpr :: String -> Either String MP.Expr
