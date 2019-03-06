@@ -26,7 +26,7 @@ compute = do
         $ throwE "Printing usage."
 
     -- Try parse input from flags
-    inp <- lift $ extractInput flags
+    inp <- lift $ extractInput (not $ Unsafe `elem` flags) flags
     n <- tryRight inp
 
     -- If Verbose flag is set, print resulting parsed number
