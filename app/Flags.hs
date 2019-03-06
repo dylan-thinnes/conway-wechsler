@@ -102,19 +102,19 @@ multipleInputFlagsError fs = Left
 tryGetInput :: Flag -> IO (Either String Integer)
 tryGetInput Stdin     = do
     inp <- getLine
-    return $ tryExprToInt =<< tryStrToExpr inp
-tryGetInput (Input e) = return $ tryExprToInt e
+    return $ tryExprToInt True =<< tryStrToExpr inp
+tryGetInput (Input e) = return $ tryExprToInt True e
 
 -- | Try to turn a string into an expression
 tryStrToExpr :: String -> Either String MP.Expr
 tryStrToExpr = left show . MP.parseToExpr
 
--- | Try to turn an expression into an Integer
-tryExprToInt :: MP.Expr -> Either String Integer
-tryExprToInt = left show . MP.runReduce (MP.reduceSafe constraints)
+-- | Try to turn an expression into an Integer, with safety flag
+tryExprToInt :: Bool -> MP.Expr -> Either String Integer
+tryExprToInt safe = left show . MP.runReduce (MP.reduceSafe constraints)
     where
     constraints :: [MP.Constraint Integer]
-    constraints =
+    constraints = if not safe then [] else
       [ MP.Constraint
           { MP.conds = MP.BinaryExprF MP.Exponentiate (>100) (>100000)
           , MP.err   = MP.TooLarge
@@ -128,7 +128,6 @@ tryExprToInt = left show . MP.runReduce (MP.reduceSafe constraints)
           , MP.err   = MP.TooLarge
           }
       ]
-
 
 -- | Map maybe to an Either value, supplying the default Left value
 maybeToEither :: a -> Maybe b -> Either a b
