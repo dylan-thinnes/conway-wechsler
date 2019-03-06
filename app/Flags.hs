@@ -13,6 +13,7 @@ data Flag = Newline
           | Verbose
           | Help
           | Stdin
+          | Unsafe
           | Input String
           deriving (Eq, Show)
 
@@ -48,6 +49,7 @@ getFlagFromShorthand 'k' = Just KeepNumerals
 getFlagFromShorthand 'n' = Just Newline
 getFlagFromShorthand 'h' = Just Help
 getFlagFromShorthand 'v' = Just Verbose
+getFlagFromShorthand 'u' = Just Unsafe
 getFlagFromShorthand _   = Nothing
 
 -- Try to obtain a flag from a string
@@ -56,6 +58,7 @@ getFlagFromLonghand "keep"       = Just KeepNumerals
 getFlagFromLonghand "newline"    = Just Newline
 getFlagFromLonghand "help"       = Just Help
 getFlagFromLonghand "verbose"    = Just Verbose
+getFlagFromLonghand "unsafe"     = Just Unsafe
 getFlagFromLonghand _            = Nothing
 
 -- Change unfound flags into error messages
