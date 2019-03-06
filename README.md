@@ -16,6 +16,9 @@ Usage: conway-wechsler [flags]
        https://github.com/dylan-thinnes/conway-wechsler#mathematical-expressions"
     -: read <n> from stdin
        If number/expression is unspecified, this is default"
+   --unsafe,
+   -u: disable all input size constraints
+       use with care
   OUTPUT
    --newline,
    -n: newline between each -illion
