@@ -13,7 +13,7 @@ data Flag = Newline
           | Verbose
           | Help
           | Stdin
-          | Input MP.Expr
+          | Input String
           deriving (Eq, Show)
 
 isInput :: Flag -> Bool
@@ -34,7 +34,7 @@ parseArgIntoFlags x
   | isAShorthandFlagList x 
   = mapM parseFlagFromShorthand $ tail x
   | otherwise
-  = (:[]) <$> Input <$> tryStrToExpr x
+  = Right [Input x]
 
 -- Checks if a string could be a shorthand flag list (e.g. -hk), and not an
 -- integer / mathematical expression
@@ -91,7 +91,7 @@ multipleInputFlagsError fs = Left
                            $ map showInput fs
     where
     showInput :: Flag -> String
-    showInput (Input i) = "'" ++ show i ++ "'"
+    showInput (Input i) = "'" ++ i ++ "'"
     showInput Stdin     = "'-' (stdin)"
     showInput _         = error "Non-input flag supplied to showInput"
 
@@ -100,10 +100,8 @@ multipleInputFlagsError fs = Left
 -- * Stdin means try read from stdin
 -- * Input i means just return i
 tryGetInput :: Flag -> IO (Either String Integer)
-tryGetInput Stdin     = do
-    inp <- getLine
-    return $ tryExprToInt True =<< tryStrToExpr inp
-tryGetInput (Input e) = return $ tryExprToInt True e
+tryGetInput Stdin     = (Input <$> getLine) >>= tryGetInput
+tryGetInput (Input s) = return $ tryExprToInt True =<< tryStrToExpr s
 
 -- | Try to turn a string into an expression
 tryStrToExpr :: String -> Either String MP.Expr
