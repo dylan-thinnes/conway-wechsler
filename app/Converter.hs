@@ -12,6 +12,8 @@ import Data.Foldable (toList)
 import Data.Char (toLower)
 import Data.Maybe (fromMaybe)
 
+import Debug.Trace
+
 -- ============================ DATATYPES ===================================
 -- | Data type for expressing results of parsing
 type Fields = S.Seq T.Text
@@ -122,7 +124,7 @@ convertRegularWithPower flags tr power = collapse $ numeral <> zillion
     where
     zillion | power == 0 = mzero            -- 10^(3*0) means no zillion prefix
             | power == 1 = pure " thousand" -- 10^(3*1) is a thousand
-            | otherwise  = pure " " <> convertPower (power - 1) 
+            | otherwise  = pure " " <> convertPower flags (power - 1)
                  -- Decrement N by 1 for zillions (N=2 -> million)
     numeral | KeepNumerals `elem` flags = pure $ T.pack 
                                         $ show $ tripleToInt tr
@@ -137,11 +139,16 @@ convertRegularWithPower flags tr power = collapse $ numeral <> zillion
 
 -- | Convert an Integer as if it were the Nth zillion, according to the
 -- Conway-Wechsler system
-convertPower :: Integer -> Fields
-convertPower n = (S.|> "on")    -- Append the final "on"
-               $ join           -- Combine all fields
-               $ convertPowerT  -- Convert each triple to a hun/ten/one prefix
-               <$> triples n    -- Extract each triple in the number
+convertPower :: [Flag] -> Integer -> Fields
+convertPower flags n 
+               = concatWithSep      -- Combine all fields with right separator
+               $ (S.|> "on")        -- Append the final "on"
+               $ join               -- Join Seq (Seq Text) into Seq Text
+               $ convertPowerT      -- Convert each triple to a hun/ten/one prefix
+               <$> triples n        -- Extract each triple in the number
+    where
+    -- joinWithSep :: S.Seq Fields -> Fields
+    concatWithSep = if Split `elem` flags then S.intersperse " " else id
 
 -- | Convert Triple as expressing a hundreds, tens, and ones place, according
 -- to the Conway-Wechsler system
@@ -156,12 +163,13 @@ convertPowerT (Triple 0 0 6) = pure "sextilli"
 convertPowerT (Triple 0 0 7) = pure "septilli"
 convertPowerT (Triple 0 0 8) = pure "octilli"
 convertPowerT (Triple 0 0 9) = pure "nonilli"
-convertPowerT tr@(Triple h t o) = runIfNotNull (liftM appendIlli) $ collapse x
+convertPowerT tr@(Triple h t o) = runIfNotNull (mapOnLast appendIlli) x
     where
     x = powerOnes o           -- Convert ones place
         <> pluralizeTriple tr -- Append ones place prefix, if any
         <> powerTens t        -- Convert tens
         <> powerHuns h        -- Convert hundreds
+    mapOnLast f sequence = S.adjust' f (S.length sequence - 1) sequence
 
 -- | Append the word "illi" to a text if it is not empty
 appendIlli :: T.Text -> T.Text

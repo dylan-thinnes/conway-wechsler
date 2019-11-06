@@ -10,6 +10,7 @@ import Control.Arrow (left)
 -- Express all possible flags that can be passed to the command line
 data Flag = Newline 
           | KeepNumerals 
+          | Split
           | Verbose
           | Help
           | Stdin
@@ -47,6 +48,7 @@ isAShorthandFlagList _        = False
 getFlagFromShorthand :: Char   -> Maybe Flag
 getFlagFromShorthand 'k' = Just KeepNumerals
 getFlagFromShorthand 'n' = Just Newline
+getFlagFromShorthand 's' = Just Split
 getFlagFromShorthand 'h' = Just Help
 getFlagFromShorthand 'v' = Just Verbose
 getFlagFromShorthand 'u' = Just Unsafe
@@ -56,6 +58,7 @@ getFlagFromShorthand _   = Nothing
 getFlagFromLonghand  :: String -> Maybe Flag
 getFlagFromLonghand "keep"       = Just KeepNumerals
 getFlagFromLonghand "newline"    = Just Newline
+getFlagFromLonghand "split"      = Just Split
 getFlagFromLonghand "help"       = Just Help
 getFlagFromLonghand "verbose"    = Just Verbose
 getFlagFromLonghand "unsafe"     = Just Unsafe
