@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedLists #-}
+{-# LANGUAGE ImplicitParams #-}
 module Converter where
 
 import Flags
@@ -95,39 +96,42 @@ rawPlaces n = S.fromList $ map f $ show n
 -- Handles edge cases around a given number before handing it off to
 -- convertConway, and then concatenates everything
 convert :: [Flag] -> Integer -> T.Text
-convert flags n | n == 0    = "zero"
-                | otherwise = extract $ getNegative flags n <>
-                              S.intersperse sep (convertConway flags $ abs n)
-    where
-    sep = if Newline `elem` flags then "\n" else ", "
+convert flags = let ?flags = flags in convertWFlags
 
-getNegative :: [Flag] -> Integer -> Fields
-getNegative flags n | n >= 0    = mzero
-                    | otherwise = pure neg <> pure sepNeg
+convertWFlags :: (?flags :: [Flag]) => Integer -> T.Text
+convertWFlags n | n == 0    = "zero"
+                | otherwise = extract $ getNegative n <>
+                              S.intersperse sep (convertConway $ abs n)
     where
-    sepNeg = if Newline `elem` flags then "\n" else " "
-    neg    = if KeepNumerals `elem` flags then "-" else "negative"
+    sep = if Newline `elem` ?flags then "\n" else ", "
+
+getNegative :: (?flags :: [Flag]) => Integer -> Fields
+getNegative n | n >= 0    = mzero
+              | otherwise = pure neg <> pure sepNeg
+    where
+    sepNeg = if Newline `elem` ?flags then "\n" else " "
+    neg    = if KeepNumerals `elem` ?flags then "-" else "negative"
 
 -- Convert a positive number according to Conway-Wechsler system
-convertConway :: [Flag] -> Integer -> Fields
-convertConway flags n = join $ S.mapWithIndex f trs
+convertConway :: (?flags :: [Flag]) => Integer -> Fields
+convertConway n = join $ S.mapWithIndex f trs
     where
     trs = triples n
     trsLen = length trs
     indexToPower i = toInteger (trsLen - i - 1)
-    f i tr = convertRegularWithPower flags tr $ indexToPower i
+    f i tr = convertRegularWithPower tr $ indexToPower i
 
 -- Convert a triple as it expresses a set of three integers times 10^(N * 3)
-convertRegularWithPower :: [Flag] -> Triple -> Integer -> Fields
-convertRegularWithPower flags (Triple 0 0 0) _ = mzero -- Given 0, return empty
-convertRegularWithPower flags tr power = collapse $ numeral <> zillion
+convertRegularWithPower :: (?flags :: [Flag]) => Triple -> Integer -> Fields
+convertRegularWithPower (Triple 0 0 0) _ = mzero -- Given 0, return empty
+convertRegularWithPower tr power = collapse $ numeral <> zillion
     where
     zillion | power == 0 = mzero            -- 10^(3*0) means no zillion prefix
             | power == 1 = pure " thousand" -- 10^(3*1) is a thousand
-            | otherwise  = pure " " <> convertPower flags (power - 1)
+            | otherwise  = pure " " <> convertPower (power - 1)
                  -- Decrement N by 1 for zillions (N=2 -> million)
-    numeral | KeepNumerals `elem` flags = pure $ T.pack 
-                                        $ show $ tripleToInt tr
+    numeral | KeepNumerals `elem` ?flags = pure $ T.pack
+                                         $ show $ tripleToInt tr
               -- If KeepNumerals set, just print the number
             | otherwise                 = convertRegular tr
 
@@ -139,16 +143,15 @@ convertRegularWithPower flags tr power = collapse $ numeral <> zillion
 
 -- | Convert an Integer as if it were the Nth zillion, according to the
 -- Conway-Wechsler system
-convertPower :: [Flag] -> Integer -> Fields
-convertPower flags n 
-               = concatWithSep      -- Combine all fields with right separator
+convertPower :: (?flags :: [Flag]) => Integer -> Fields
+convertPower n = concatWithSep      -- Combine all fields with right separator
                $ (S.|> "on")        -- Append the final "on"
                $ join               -- Join Seq (Seq Text) into Seq Text
                $ convertPowerT      -- Convert each triple to a hun/ten/one prefix
                <$> triples n        -- Extract each triple in the number
     where
     -- joinWithSep :: S.Seq Fields -> Fields
-    concatWithSep = if Split `elem` flags then S.intersperse " " else id
+    concatWithSep = if Split `elem` ?flags then S.intersperse " " else id
 
 -- | Convert Triple as expressing a hundreds, tens, and ones place, according
 -- to the Conway-Wechsler system
