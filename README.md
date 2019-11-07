@@ -11,11 +11,11 @@ Command line utility - Convert numbers into a pronounceable form.
 ```
 Usage: conway-wechsler [flags]
   INPUT
-  <n>: a number composed of digits, or a mathematical expression"
-       For more information on valid mathematical expressions, go to"
-       https://github.com/dylan-thinnes/conway-wechsler#mathematical-expressions"
+  <n>: a number composed of digits, or a mathematical expression
+       For more information on valid mathematical expressions, go to
+       https://github.com/dylan-thinnes/conway-wechsler#mathematical-expressions
     -: read <n> from stdin
-       If number/expression is unspecified, this is default"
+       If number/expression is unspecified, this is default
    --unsafe,
    -u: disable all input size constraints
        use with care
@@ -25,6 +25,8 @@ Usage: conway-wechsler [flags]
    --keep,
    -k: express numbers < 1000 as numerals, not words
        also, write 'negative' as '-'
+   --split,
+   -s: split zillion prefixes with spaces for post-processors
    --verbose,
    -v: print verbose status updates
   MISCELLANEOUS

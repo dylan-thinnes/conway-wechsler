@@ -58,6 +58,8 @@ usage = mapM_ (hPutStrLn stderr) ls
     ,"   --keep,"
     ,"   -k: express numbers < 1000 as numerals, not words"
     ,"       also, write 'negative' as '-'"
+    ,"   --split,"
+    ,"   -s: split zillion prefixes with spaces for post-processors"
     ,"   --verbose,"
     ,"   -v: print verbose status updates"
     ,"  MISCELLANEOUS"
