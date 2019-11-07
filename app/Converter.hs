@@ -150,7 +150,7 @@ convertPower n = concatWithSep      -- Combine all fields with right separator
                $ convertPowerT      -- Convert each triple to a hun/ten/one prefix
                <$> triples n        -- Extract each triple in the number
     where
-    -- joinWithSep :: S.Seq Fields -> Fields
+    concatWithSep :: Fields -> Fields
     concatWithSep = if Split `elem` ?flags then S.intersperse " " else id
 
 -- | Convert Triple as expressing a hundreds, tens, and ones place, according
