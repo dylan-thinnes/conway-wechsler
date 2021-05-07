@@ -1,0 +1,6 @@
+source-repository-package
+  type:     git
+  location: git://github.com/dylan-thinnes/math-parser.git
+  tag:      d123dcb74ecc8221734f5530f52ea432213eb9f7
+
+packages: ./conway-wechsler.cabal
