@@ -58,8 +58,16 @@ body {
 </head>
 <body>
     <div id="loading-indicator">Loading WebAssembly...</div>
+    <div id="info-section">
+        <h3>Conway-Wechsler Pronounciation <small><small>by <a href="https://dylant.org">Dylan Thinnes</a></small></small></h3>
+        <p>
+            Welcome to the online Conway-Wechsler converter. This website will
+            take a big number and tell you how to pronounce it according to the
+            <a href="https://github.com/dylan-thinnes/conway-wechsler#what-does-it-do">Conway-Wechsler big number pronounciation system</a>. Please be careful when running massive numbers! (e.g. 2 ^ 100000)
+        </p>
+    </div>
     <div id="input-section">
-        <textarea id="input" class="form-control" placeholder="Enter your numeric expression here..."></textarea>
+        <textarea id="input" class="form-control" placeholder="Enter your numeric expression here, for example:&#10;1000 -> one-thousand&#10;234 * 567 + 2 -> one hundred and thirty-two thousand, six hundred and eighty&#10;2 ^ 200 -> one novendecillion, six hundred and six octodecillion, ..."></textarea>
         <div>
             <button id="submit" class="btn btn-primary" type="submit">Convert</button><div class="zero-width-container"><div id="convert-success-indicator"></div></div>
         </div>
