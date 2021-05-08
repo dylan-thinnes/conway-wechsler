@@ -49,7 +49,6 @@ function initializeApp (instance) {
     }
 
     inpEl.addEventListener("keydown", async e => {
-        console.log(e);
         if (e.keyCode == 13 && e.shiftKey == false) {
             e.preventDefault();
             await submitForConversion();
