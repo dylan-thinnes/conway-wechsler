@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Conway Wechsler Calculator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: monospace;
+    height: 100vh;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+}
+
+#input-section, #output-section {
+    flex: 1 1 auto;
+    height: 0;
+    overflow-y: hidden;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+#input, #output {
+    flex: 1 1 auto;
+    display: block;
+    width: 100%;
+    border: 1px solid black;
+    resize: none;
+    margin-bottom: 5px;
+}
+
+#loading-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.8)
+}
+
+.zero-width-container {
+    display: inline-block;
+    width: 0px;
+}
+</style>
+</head>
+<body>
+    <div id="loading-indicator">Loading WebAssembly...</div>
+    <div id="input-section">
+        <textarea id="input" class="form-control" placeholder="Enter your numeric expression here..."></textarea>
+        <div>
+            <button id="submit" class="btn btn-primary" type="submit">Convert</button><div class="zero-width-container"><div id="convert-success-indicator"></div></div>
+        </div>
+    </div>
+    <div id="output-section">
+        <textarea id="output" class="form-control" disabled readonly placeholder="Output will be here."></textarea>
+        <div>
+            <button id="copy-clipboard" disabled class="btn btn-primary" type="submit">Copy to Clipboard</button><div class="zero-width-container"><div id="copy-success-indicator"></div></div>
+        </div>
+    </div>
+    <script src="Custom.js"></script>
+    <script src="Asterius.js"></script>
+</body>
+</html>
