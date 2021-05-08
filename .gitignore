@@ -7,3 +7,7 @@
 conway-wechsler
 
 .stack-work
+
+docs/Asterius.js
+docs/Asterius.wasm
+dist-newstyle/
