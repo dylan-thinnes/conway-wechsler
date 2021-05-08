@@ -28,6 +28,10 @@ body {
     align-items: center;
 }
 
+#footer-section {
+    text-align: center;
+}
+
 #input, #output {
     flex: 1 1 auto;
     display: block;
@@ -57,9 +61,12 @@ body {
 </style>
 </head>
 <body>
+    <script>
+        console.log("Hi there! Curious about how this is built? Check out the repo, especially the asterius branch.", "https://github.com/dylan-thinnes/conway-wechsler", "https://github.com/dylan-thinnes/conway-wechsler/tree/asterius")
+    </script>
     <div id="loading-indicator">Loading WebAssembly...</div>
     <div id="info-section">
-        <h3>Conway-Wechsler Pronounciation <small><small>by <a href="https://dylant.org">Dylan Thinnes</a></small></small></h3>
+        <h3>Conway-Wechsler Pronounciation</h3>
         <p>
             Welcome to the online Conway-Wechsler converter. This website will
             take a big number and tell you how to pronounce it according to the
@@ -67,7 +74,7 @@ body {
         </p>
     </div>
     <div id="input-section">
-        <textarea id="input" class="form-control" placeholder="Enter your numeric expression here, for example:&#10;1000 -> one-thousand&#10;234 * 567 + 2 -> one hundred and thirty-two thousand, six hundred and eighty&#10;2 ^ 200 -> one novendecillion, six hundred and six octodecillion, ..."></textarea>
+        <textarea id="input" class="form-control" placeholder="Enter your numeric expression here, for example:&#10;1000          -> one thousand&#10;234 * 567 + 2 -> one hundred and thirty-two thousand, six hundred and eighty&#10;2 ^ 200       -> one novendecillion, six hundred and six octodecillion, ..."></textarea>
         <div>
             <button id="submit" class="btn btn-primary" type="submit">Convert</button><div class="zero-width-container"><div id="convert-success-indicator"></div></div>
         </div>
@@ -77,6 +84,9 @@ body {
         <div>
             <button id="copy-clipboard" disabled class="btn btn-primary" type="submit">Copy to Clipboard</button><div class="zero-width-container"><div id="copy-success-indicator"></div></div>
         </div>
+    </div>
+    <div id="footer-section">
+        <span>Made by <a href="https://dylant.org">Dylan Thinnes</a> using <a href="https://github.com/tweag/asterius">Asterius</a>, a Haskell to WebAssembly compiler.</span>
     </div>
     <script src="Custom.js"></script>
     <script src="Asterius.js"></script>

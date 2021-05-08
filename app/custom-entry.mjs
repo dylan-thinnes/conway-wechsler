@@ -6,6 +6,5 @@ module
     .then(m => rts.newAsteriusInstance(Object.assign(req, {module: m})))
     .then(i => {
         window.asteriusInstance = i;
-        console.log("Got asterius instance", i);
         initializeApp(i);
     });
