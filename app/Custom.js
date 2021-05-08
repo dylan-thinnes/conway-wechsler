@@ -10,8 +10,8 @@ function initializeApp (instance) {
     let convertSuccessIndicator = document.getElementById("convert-success-indicator");
     let copySuccessIndicator = document.getElementById("copy-success-indicator");
 
-    submit.onclick = async () => {
-        if (submit.disabled) {
+    let submitForConversion = async () => {
+        if (submitEl.disabled) {
             console.log("Submit prevented because button is disabled.")
             return;
         }
@@ -47,6 +47,16 @@ function initializeApp (instance) {
         submitEl.innerText = "Convert";
         submitEl.disabled = false;
     }
+
+    inpEl.addEventListener("keydown", async e => {
+        console.log(e);
+        if (e.keyCode == 13 && e.shiftKey == false) {
+            e.preventDefault();
+            await submitForConversion();
+        }
+    });
+
+    submitEl.addEventListener("click", submitForConversion);
 
     copyToClipboardEl.onclick = async () => {
         if (copyToClipboardEl.disabled) {
