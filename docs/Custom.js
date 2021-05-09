@@ -2,6 +2,8 @@ function initializeApp (instance) {
     document.getElementById("loading-indicator").style.display = "none";
 
     let inpEl = document.getElementById("input");
+    let keepNumeralsEl = document.getElementById("keep-numerals");
+    let newlineEl = document.getElementById("newline");
     let outEl = document.getElementById("output");
 
     let submitEl = document.getElementById("submit");
@@ -16,16 +18,20 @@ function initializeApp (instance) {
             return;
         }
 
-        let inp = inpEl.value;
+        let inp = {
+            input: inpEl.value,
+            keepNumerals: keepNumeralsEl.checked,
+            newline: newlineEl.checked
+        }
 
         convertSuccessIndicator.innerText = "";
 
         submitEl.innerText = "Converting...";
         submitEl.disabled = true;
 
-        let out = await instance.exports.tryStrToPronounciation(inp);
+        let out = await instance.exports.tryConwayWechsler(inp);
         if (out.type === "success") {
-            outEl.value = out.data;
+            outEl.value = out.data.pronounciation;
             outEl.disabled = false;
 
             copyToClipboardEl.disabled = false;

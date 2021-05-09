@@ -41,6 +41,24 @@ body {
     margin-bottom: 5px;
 }
 
+#extra-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    text-align: center;
+}
+
+#extra-options input {
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+#extra-options label {
+    margin: 0;
+}
+
 #loading-indicator {
     position: absolute;
     top: 0;
@@ -77,6 +95,10 @@ body {
         <textarea id="input" class="form-control" placeholder="Enter your numeric expression here, for example:&#10;1000          -> one thousand&#10;234 * 567 + 2 -> one hundred and thirty-two thousand, six hundred and eighty&#10;2 ^ 200       -> one novendecillion, six hundred and six octodecillion, ..."></textarea>
         <div>
             <button id="submit" class="btn btn-primary" type="submit">Convert</button><div class="zero-width-container"><div id="convert-success-indicator"></div></div>
+        </div>
+        <div id="extra-options">
+            <input type="checkbox" id="keep-numerals"><label for="keep-numerals">Don't convert numerals</label>
+            <input type="checkbox" id="newline"><label for="newline">Separate with newlines</label>
         </div>
     </div>
     <div id="output-section">
