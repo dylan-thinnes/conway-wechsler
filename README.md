@@ -8,6 +8,9 @@ Command line utility - Convert numbers into a pronounceable form.
 [What is Conway-Wechsler form?](#what-is-conway-wechsler-form)
 
 ## Usage
+
+try it out in your browser, no downloads needed, [here](https://dylant.org/conway-wechsler/) (compiled to WebAssembly using [Asterius](https://github.com/tweag/asterius)).
+
 ```
 Usage: conway-wechsler [flags]
   INPUT
